@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Categories" representedClassName="Categories" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="includes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipes" inverseName="isA" inverseEntity="Recipes"/>
+    </entity>
+    <entity name="Ingredients" representedClassName="Ingredients" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="usedIn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipes" inverseName="contains" inverseEntity="Recipes"/>
+    </entity>
+    <entity name="Recipes" representedClassName="Recipes" syncable="YES" codeGenerationType="class">
+        <attribute name="descriptions" optional="YES" attributeType="String"/>
+        <attribute name="instructions" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="contains" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredients" inverseName="usedIn" inverseEntity="Ingredients"/>
+        <relationship name="isA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Categories" inverseName="includes" inverseEntity="Categories"/>
+    </entity>
 </model>

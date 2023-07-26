@@ -9,23 +9,39 @@
 /* Begin PBXBuildFile section */
 		0B3F0D612A71844200A4C843 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D602A71844200A4C843 /* AppDelegate.swift */; };
 		0B3F0D632A71844200A4C843 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D622A71844200A4C843 /* SceneDelegate.swift */; };
-		0B3F0D652A71844200A4C843 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D642A71844200A4C843 /* ViewController.swift */; };
-		0B3F0D682A71844200A4C843 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B3F0D662A71844200A4C843 /* Main.storyboard */; };
+		0B3F0D652A71844200A4C843 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D642A71844200A4C843 /* LoginViewController.swift */; };
 		0B3F0D6B2A71844200A4C843 /* BeaconFireProject1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D692A71844200A4C843 /* BeaconFireProject1.xcdatamodeld */; };
 		0B3F0D6D2A71844300A4C843 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B3F0D6C2A71844300A4C843 /* Assets.xcassets */; };
 		0B3F0D702A71844300A4C843 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B3F0D6E2A71844300A4C843 /* LaunchScreen.storyboard */; };
+		0B3F0D7C2A718C9D00A4C843 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D7B2A718C9D00A4C843 /* HomeViewController.swift */; };
+		0B3F0D7F2A718CC800A4C843 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D7E2A718CC800A4C843 /* SettingViewController.swift */; };
+		0B3F0D812A718CD600A4C843 /* RecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D802A718CD600A4C843 /* RecipeDetailViewController.swift */; };
+		0B3F0D832A718CE300A4C843 /* EditRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D822A718CE300A4C843 /* EditRecipeViewController.swift */; };
+		0B3F0D852A7190CB00A4C843 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D842A7190CB00A4C843 /* TagView.swift */; };
+		0B3F0D872A7190E200A4C843 /* InputFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D862A7190E200A4C843 /* InputFieldView.swift */; };
+		0B3F0D892A7190F000A4C843 /* IngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D882A7190F000A4C843 /* IngredientView.swift */; };
+		0B3F0D8D2A71BD3100A4C843 /* HomeCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D8C2A71BD3100A4C843 /* HomeCategoriesViewModel.swift */; };
+		0B3F0D8F2A71BFD100A4C843 /* HomeCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D8E2A71BFD100A4C843 /* HomeCategoriesCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B3F0D5D2A71844200A4C843 /* BeaconFireProject1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconFireProject1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B3F0D602A71844200A4C843 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0B3F0D622A71844200A4C843 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0B3F0D642A71844200A4C843 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0B3F0D672A71844200A4C843 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0B3F0D642A71844200A4C843 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0B3F0D6A2A71844200A4C843 /* BeaconFireProject1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeaconFireProject1.xcdatamodel; sourceTree = "<group>"; };
 		0B3F0D6C2A71844300A4C843 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B3F0D6F2A71844300A4C843 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B3F0D712A71844300A4C843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B3F0D7B2A718C9D00A4C843 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0B3F0D7E2A718CC800A4C843 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0B3F0D802A718CD600A4C843 /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewController.swift; sourceTree = "<group>"; };
+		0B3F0D822A718CE300A4C843 /* EditRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecipeViewController.swift; sourceTree = "<group>"; };
+		0B3F0D842A7190CB00A4C843 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		0B3F0D862A7190E200A4C843 /* InputFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFieldView.swift; sourceTree = "<group>"; };
+		0B3F0D882A7190F000A4C843 /* IngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientView.swift; sourceTree = "<group>"; };
+		0B3F0D8C2A71BD3100A4C843 /* HomeCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoriesViewModel.swift; sourceTree = "<group>"; };
+		0B3F0D8E2A71BFD100A4C843 /* HomeCategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoriesCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +74,56 @@
 		0B3F0D5F2A71844200A4C843 /* BeaconFireProject1 */ = {
 			isa = PBXGroup;
 			children = (
+				0B3F0D7A2A718A5700A4C843 /* ViewModels */,
+				0B3F0D792A718A4700A4C843 /* Models */,
+				0B3F0D782A718A3F00A4C843 /* Views */,
+				0B3F0D772A718A2E00A4C843 /* ViewControllers */,
 				0B3F0D602A71844200A4C843 /* AppDelegate.swift */,
 				0B3F0D622A71844200A4C843 /* SceneDelegate.swift */,
-				0B3F0D642A71844200A4C843 /* ViewController.swift */,
-				0B3F0D662A71844200A4C843 /* Main.storyboard */,
 				0B3F0D6C2A71844300A4C843 /* Assets.xcassets */,
 				0B3F0D6E2A71844300A4C843 /* LaunchScreen.storyboard */,
 				0B3F0D712A71844300A4C843 /* Info.plist */,
 				0B3F0D692A71844200A4C843 /* BeaconFireProject1.xcdatamodeld */,
 			);
 			path = BeaconFireProject1;
+			sourceTree = "<group>";
+		};
+		0B3F0D772A718A2E00A4C843 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0B3F0D642A71844200A4C843 /* LoginViewController.swift */,
+				0B3F0D7B2A718C9D00A4C843 /* HomeViewController.swift */,
+				0B3F0D7E2A718CC800A4C843 /* SettingViewController.swift */,
+				0B3F0D802A718CD600A4C843 /* RecipeDetailViewController.swift */,
+				0B3F0D822A718CE300A4C843 /* EditRecipeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0B3F0D782A718A3F00A4C843 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0B3F0D842A7190CB00A4C843 /* TagView.swift */,
+				0B3F0D862A7190E200A4C843 /* InputFieldView.swift */,
+				0B3F0D882A7190F000A4C843 /* IngredientView.swift */,
+				0B3F0D8E2A71BFD100A4C843 /* HomeCategoriesCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0B3F0D792A718A4700A4C843 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0B3F0D7A2A718A5700A4C843 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0B3F0D8C2A71BD3100A4C843 /* HomeCategoriesViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,7 +186,6 @@
 			files = (
 				0B3F0D702A71844300A4C843 /* LaunchScreen.storyboard in Resources */,
 				0B3F0D6D2A71844300A4C843 /* Assets.xcassets in Resources */,
-				0B3F0D682A71844200A4C843 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,24 +196,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B3F0D652A71844200A4C843 /* ViewController.swift in Sources */,
+				0B3F0D7C2A718C9D00A4C843 /* HomeViewController.swift in Sources */,
+				0B3F0D652A71844200A4C843 /* LoginViewController.swift in Sources */,
+				0B3F0D812A718CD600A4C843 /* RecipeDetailViewController.swift in Sources */,
 				0B3F0D6B2A71844200A4C843 /* BeaconFireProject1.xcdatamodeld in Sources */,
 				0B3F0D612A71844200A4C843 /* AppDelegate.swift in Sources */,
+				0B3F0D8F2A71BFD100A4C843 /* HomeCategoriesCell.swift in Sources */,
 				0B3F0D632A71844200A4C843 /* SceneDelegate.swift in Sources */,
+				0B3F0D892A7190F000A4C843 /* IngredientView.swift in Sources */,
+				0B3F0D832A718CE300A4C843 /* EditRecipeViewController.swift in Sources */,
+				0B3F0D7F2A718CC800A4C843 /* SettingViewController.swift in Sources */,
+				0B3F0D872A7190E200A4C843 /* InputFieldView.swift in Sources */,
+				0B3F0D852A7190CB00A4C843 /* TagView.swift in Sources */,
+				0B3F0D8D2A71BD3100A4C843 /* HomeCategoriesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0B3F0D662A71844200A4C843 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0B3F0D672A71844200A4C843 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0B3F0D6E2A71844300A4C843 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -296,7 +352,6 @@
 				INFOPLIST_FILE = BeaconFireProject1/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,7 +379,6 @@
 				INFOPLIST_FILE = BeaconFireProject1/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

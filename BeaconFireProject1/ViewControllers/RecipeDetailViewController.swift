@@ -51,6 +51,11 @@ class RecipeDetailViewController: UIViewController {
         return label
     }()
     
+    private let ingredientView: IngredientView
+    private let ingredientRowHeight = 30.0
+    private let ingredientTableCellId = "ingredientTableCell"
+    private let ingredientTableHeaderId = "ingredientTableHeader"
+    
     private let instructionLabel: UILabel = {
         let label = UILabel()
         label.text = "Instruction"
@@ -77,6 +82,13 @@ class RecipeDetailViewController: UIViewController {
         recipeNameLabel.text = recipe.name
         descriptionTextView.text = recipe.description
         instructionTextView.text = recipe.instruction
+        
+        let ingredientViewModel = IngredientViewModel(
+            ingredients: recipe.ingredients,
+            rowHeight: ingredientRowHeight,
+            indentifier: ingredientTableCellId,
+            headerIdentifier: ingredientTableHeaderId)
+        ingredientView = IngredientView(ingredientViewModel: ingredientViewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,6 +100,7 @@ class RecipeDetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
+        navigationItem.setRightBarButton(UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonPressed)), animated: true)
         scrollView.contentInsetAdjustmentBehavior = .never
         
         view.addSubview(scrollView)
@@ -95,6 +108,7 @@ class RecipeDetailViewController: UIViewController {
         scrollView.addSubview(recipeNameLabel)
         scrollView.addSubview(descriptionTextView)
         scrollView.addSubview(ingredientsLabel)
+        scrollView.addSubview(ingredientView)
         scrollView.addSubview(instructionLabel)
         scrollView.addSubview(instructionTextView)
     }
@@ -125,12 +139,21 @@ class RecipeDetailViewController: UIViewController {
         ingredientsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
         
-        instructionLabel.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 20).isActive = true
+        ingredientView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 5).isActive = true
+        ingredientView.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
+        ingredientView.trailingAnchor.constraint(equalTo: descriptionTextView.trailingAnchor).isActive = true
+        
+        instructionLabel.topAnchor.constraint(equalTo: ingredientView.bottomAnchor, constant: 20).isActive = true
         instructionLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
         
         instructionTextView.topAnchor.constraint(equalTo: instructionLabel.bottomAnchor, constant: 20).isActive = true
         instructionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         instructionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         instructionTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
+    }
+    
+    @objc func editButtonPressed(_ sender: UIButton) {
+        let vc = EditRecipeViewController(recipe: recipe)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

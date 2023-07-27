@@ -21,7 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let loginViewModel = LoginViewModel()
         let vc = LoginViewController(loginViewModel: loginViewModel)
-        window.rootViewController = UINavigationController(rootViewController: vc)
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.navigationBar.tintColor = .black
+        window.rootViewController = navVC
         window.makeKeyAndVisible()
         self.window = window
     }

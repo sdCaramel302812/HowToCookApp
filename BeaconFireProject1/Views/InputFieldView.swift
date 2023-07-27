@@ -22,6 +22,8 @@ class InputFieldView: UIView {
         return textField
     }()
     
+
+    
     var inputText: String {
         get {
             return textField.text ?? ""

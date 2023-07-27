@@ -106,7 +106,8 @@ class HomeViewController: UIViewController {
             """,
             categories: ["non-vegetarian", "lunch"],
             ingredients: [
-                (ingredient: IngredientModel(name: "chicken breasts", unit: "g"), qty: 10.0)
+                (ingredient: IngredientModel(name: "chicken breasts", image: UIImage(named: "KungPaoChicken"), unit: "g"), qty: 350.0),
+                (ingredient: IngredientModel(name: "green onion", unit: "g"), qty: 180.0),
             ])
         
         let vc = RecipeDetailViewController(recipe: mockRecipe)

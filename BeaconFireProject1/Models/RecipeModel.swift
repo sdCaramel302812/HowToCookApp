@@ -15,4 +15,5 @@ struct RecipeModel {
     var instruction: String
     var categories: [String]
     var ingredients: [(ingredient: IngredientModel, qty: Double)]
+    var isFavorite: Bool = false
 }

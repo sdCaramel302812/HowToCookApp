@@ -2,18 +2,29 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Categories" representedClassName="Categories" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="includes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipes" inverseName="isA" inverseEntity="Recipes"/>
+        <relationship name="hasRecipes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeCategories" inverseName="category" inverseEntity="RecipeCategories"/>
     </entity>
     <entity name="Ingredients" representedClassName="Ingredients" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="unit" optional="YES" attributeType="String"/>
+        <relationship name="usedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeIngredients" inverseName="ingredient" inverseEntity="RecipeIngredients"/>
+    </entity>
+    <entity name="RecipeCategories" representedClassName="RecipeCategories" syncable="YES" codeGenerationType="class">
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Categories" inverseName="hasRecipes" inverseEntity="Categories"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipes" inverseName="isA" inverseEntity="Recipes"/>
+    </entity>
+    <entity name="RecipeIngredients" representedClassName="RecipeIngredients" syncable="YES" codeGenerationType="class">
         <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="usedIn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipes" inverseName="contains" inverseEntity="Recipes"/>
+        <relationship name="ingredient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ingredients" inverseName="usedBy" inverseEntity="Ingredients"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipes" inverseName="uses" inverseEntity="Recipes"/>
     </entity>
     <entity name="Recipes" representedClassName="Recipes" syncable="YES" codeGenerationType="class">
         <attribute name="descriptions" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="instructions" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="contains" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredients" inverseName="usedIn" inverseEntity="Ingredients"/>
-        <relationship name="isA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Categories" inverseName="includes" inverseEntity="Categories"/>
+        <relationship name="isA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecipeCategories" inverseName="recipe" inverseEntity="RecipeCategories"/>
+        <relationship name="uses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeIngredients" inverseName="recipe" inverseEntity="RecipeIngredients"/>
     </entity>
 </model>

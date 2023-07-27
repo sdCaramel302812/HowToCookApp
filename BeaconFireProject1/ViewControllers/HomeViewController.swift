@@ -38,7 +38,18 @@ class HomeViewController: UIViewController {
     
     var categoriesViewModel: HomeCategoriesViewModel!
     let categoriesCellIdentifier = "categoriesCell"
-
+    
+    private let addRecipeButton: UIButton = {
+        let button = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(hierarchicalColor: .white)
+        let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
+        button.setImage(image, for: .normal)
+        button.backgroundColor = UIColor(red: 10 / 255, green: 95 / 255, blue: 255 / 255, alpha: 0.7)
+        button.layer.cornerRadius = 30
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -49,6 +60,9 @@ class HomeViewController: UIViewController {
         
         view.addSubview(welcomeLabel)
         view.addSubview(categoriesCollectionView)
+        view.addSubview(addRecipeButton)
+        
+        addRecipeButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,5 +73,15 @@ class HomeViewController: UIViewController {
         categoriesCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         categoriesCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        addRecipeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40).isActive = true
+        addRecipeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        addRecipeButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        addRecipeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
+    @objc private func addButtonPressed(_ sender: UIButton) {
+        let vc = EditRecipeViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

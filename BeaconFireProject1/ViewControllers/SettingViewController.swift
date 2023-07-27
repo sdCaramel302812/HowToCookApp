@@ -8,6 +8,8 @@
 import UIKit
 
 class SettingViewController: UIViewController {
+    let loginViewModel: LoginViewModel
+    
     private let settingLabel: UILabel = {
         let label = UILabel()
         label.text = "Setting"
@@ -52,6 +54,15 @@ class SettingViewController: UIViewController {
         return button
     }()
     
+    init(loginViewModel: LoginViewModel) {
+        self.loginViewModel = loginViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -92,6 +103,7 @@ class SettingViewController: UIViewController {
     }
     
     @objc private func logoutButtonPressed(_ sender: UIButton) {
+        loginViewModel.saveLoggedInStatus(loggedIn: false)
         navigationController?.popViewController(animated: true)
     }
 }

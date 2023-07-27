@@ -8,22 +8,129 @@
 import UIKit
 
 class RecipeDetailViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    private var recipe: RecipeModel
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let recipeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let recipeNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .black
+        textView.font = UIFont.systemFont(ofSize: 16)
+        textView.isEditable = false
+        textView.textAlignment = .center
+        textView.sizeToFit()
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    private let ingredientsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Recipe Ingredients"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let instructionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Instruction"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let instructionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .black
+        textView.font = UIFont.systemFont(ofSize: 16)
+        textView.isEditable = false
+        textView.sizeToFit()
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    init(recipe: RecipeModel) {
+        self.recipe = recipe
+        recipeImageView.image = recipe.image
+        recipeNameLabel.text = recipe.name
+        descriptionTextView.text = recipe.description
+        instructionTextView.text = recipe.instruction
+        super.init(nibName: nil, bundle: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    */
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
+        scrollView.contentInsetAdjustmentBehavior = .never
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(recipeImageView)
+        scrollView.addSubview(recipeNameLabel)
+        scrollView.addSubview(descriptionTextView)
+        scrollView.addSubview(ingredientsLabel)
+        scrollView.addSubview(instructionLabel)
+        scrollView.addSubview(instructionTextView)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        scrollView.contentSize = view.frame.size
+        
+        let imageSize = recipeImageView.image?.size
+        let width = view.frame.width
+        if let imageSize {
+            let heightRatio = imageSize.height / (imageSize.width == 0 ? 1 : imageSize.width)
+            recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+            recipeImageView.widthAnchor.constraint(equalToConstant: width).isActive = true
+            recipeImageView.heightAnchor.constraint(equalToConstant: width * heightRatio).isActive = true
+        }
+        
+        recipeNameLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        recipeNameLabel.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor, constant: 15).isActive = true
+        
+        descriptionTextView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 20).isActive = true
+        descriptionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        descriptionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        
+        ingredientsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20).isActive = true
+        ingredientsLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
+        
+        instructionLabel.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 20).isActive = true
+        instructionLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
+        
+        instructionTextView.topAnchor.constraint(equalTo: instructionLabel.bottomAnchor, constant: 20).isActive = true
+        instructionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        instructionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
+        instructionTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
+    }
 }

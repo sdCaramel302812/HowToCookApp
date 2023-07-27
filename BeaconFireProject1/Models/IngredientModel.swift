@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
 struct IngredientModel {
-    
+    var name: String
+    var image: UIImage?
+    var unit: String
 }

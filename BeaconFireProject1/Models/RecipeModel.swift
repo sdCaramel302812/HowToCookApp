@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import UIKit
+
+struct RecipeModel {
+    var name: String
+    var image: UIImage?
+    var description: String
+    var instruction: String
+    var categories: [String]
+    var ingredients: [(ingredient: IngredientModel, qty: Double)]
+}

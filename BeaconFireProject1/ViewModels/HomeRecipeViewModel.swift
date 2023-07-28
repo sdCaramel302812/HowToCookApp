@@ -49,7 +49,7 @@ class HomeRecipeViewModel: NSObject {
             var categories: [String] = []
             if let categoryRelation = recipe.isA {
                 for item in categoryRelation {
-                    if let cat = (item as? RecipeCategories)?.category?.name {
+                    if let cat = (item as? Categories)?.name {
                         categories.append(cat)
                     }
                 }

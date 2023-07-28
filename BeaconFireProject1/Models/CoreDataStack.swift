@@ -77,17 +77,11 @@ class CoreDataStack {
         recipe1.image = "GarlicShrimp"
         recipe1.isFavorite = false
         
-        let recipeCat1 = RecipeCategories(context: context)
-        recipeCat1.recipe = recipe1
-        recipeCat1.category = category2
-        recipe1.addToIsA(recipeCat1)
-        category2.addToHasRecipes(recipeCat1)
-        
-        let recipeCat2 = RecipeCategories(context: context)
-        recipeCat2.recipe = recipe1
-        recipeCat2.category = category3
-        recipe1.addToIsA(recipeCat2)
-        category3.addToHasRecipes(recipeCat2)
+        recipe1.addToIsA(category2)
+        category2.addToHasRecipes(recipe1)
+
+        recipe1.addToIsA(category3)
+        category3.addToHasRecipes(recipe1)
         
         let recipe2 = Recipes(context: context)
         recipe2.name = "Scotch Eggs"
@@ -109,17 +103,11 @@ class CoreDataStack {
         recipe2.image = "ScotchEggs"
         recipe2.isFavorite = false
         
-        let recipeCat3 = RecipeCategories(context: context)
-        recipeCat3.recipe = recipe2
-        recipeCat3.category = category2
-        recipe2.addToIsA(recipeCat3)
-        category2.addToHasRecipes(recipeCat3)
-        
-        let recipeCat4 = RecipeCategories(context: context)
-        recipeCat4.recipe = recipe2
-        recipeCat4.category = category4
-        recipe2.addToIsA(recipeCat4)
-        category4.addToHasRecipes(recipeCat4)
+        recipe2.addToIsA(category2)
+        category2.addToHasRecipes(recipe2)
+
+        recipe2.addToIsA(category4)
+        category4.addToHasRecipes(recipe2)
         
         let recipe3 = Recipes(context: context)
         recipe3.name = "Miso Soba Noodles"
@@ -132,17 +120,11 @@ class CoreDataStack {
         recipe3.image = "MisoSobaNoodles"
         recipe3.isFavorite = false
         
-        let recipeCat5 = RecipeCategories(context: context)
-        recipeCat5.recipe = recipe3
-        recipeCat5.category = category1
-        recipe3.addToIsA(recipeCat5)
-        category1.addToHasRecipes(recipeCat5)
-        
-        let recipeCat6 = RecipeCategories(context: context)
-        recipeCat6.recipe = recipe3
-        recipeCat6.category = category5
-        recipe3.addToIsA(recipeCat6)
-        category5.addToHasRecipes(recipeCat6)
+        recipe3.addToIsA(category1)
+        category1.addToHasRecipes(recipe3)
+
+        recipe3.addToIsA(category5)
+        category5.addToHasRecipes(recipe3)
         
         let recipe4 = Recipes(context: context)
         recipe4.name = "Millet Porridge"
@@ -157,17 +139,11 @@ class CoreDataStack {
         recipe4.image = "MilletPorridge"
         recipe4.isFavorite = false
         
-        let recipeCat7 = RecipeCategories(context: context)
-        recipeCat7.recipe = recipe4
-        recipeCat7.category = category1
-        recipe4.addToIsA(recipeCat7)
-        category1.addToHasRecipes(recipeCat7)
-        
-        let recipeCat8 = RecipeCategories(context: context)
-        recipeCat8.recipe = recipe4
-        recipeCat8.category = category6
-        recipe4.addToIsA(recipeCat8)
-        category6.addToHasRecipes(recipeCat8)
+        recipe4.addToIsA(category1)
+        category1.addToHasRecipes(recipe4)
+
+        recipe4.addToIsA(category6)
+        category6.addToHasRecipes(recipe4)
         
         let recipe5 = Recipes(context: context)
         recipe5.name = "Gin Fizz"
@@ -184,11 +160,8 @@ class CoreDataStack {
         recipe5.image = "GinFizz"
         recipe5.isFavorite = false
         
-        let recipeCat9 = RecipeCategories(context: context)
-        recipeCat9.recipe = recipe5
-        recipeCat9.category = category7
-        recipe5.addToIsA(recipeCat9)
-        category7.addToHasRecipes(recipeCat9)
+        recipe5.addToIsA(category7)
+        category7.addToHasRecipes(recipe5)
         
         let recipe6 = Recipes(context: context)
         recipe6.name = "Sweet Fried Taro Chips"
@@ -205,11 +178,8 @@ class CoreDataStack {
         recipe6.image = "SweetFriedTaroChips"
         recipe6.isFavorite = false
         
-        let recipeCat10 = RecipeCategories(context: context)
-        recipeCat10.recipe = recipe6
-        recipeCat10.category = category8
-        recipe6.addToIsA(recipeCat10)
-        category8.addToHasRecipes(recipeCat10)
+        recipe6.addToIsA(category8)
+        category8.addToHasRecipes(recipe6)
         
         let ingredient1 = Ingredients(context: context)
         ingredient1.name = "shrimp"
@@ -474,7 +444,7 @@ class CoreDataStack {
     }
     
     func deleteData() {
-        let entities = ["Recipes", "Categories", "Ingredients", "RecipeCategories", "RecipeIngredients"]
+        let entities = ["Recipes", "Categories", "Ingredients", "RecipeIngredients"]
         
         for entity in entities {
             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)

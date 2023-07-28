@@ -48,7 +48,7 @@ class EditRecipeViewController: UIViewController {
     private let instructionInput = InputTextView(labelText: "Instruction")
     
     
-    init(recipe: RecipeModel) {
+    init(recipe: RecipeModel, title: String) {
         self.recipe = recipe
         recipeNameInput.inputText = recipe.name
         descriptionInput.inputText = recipe.description
@@ -60,6 +60,8 @@ class EditRecipeViewController: UIViewController {
             indentifier: ingredientTableCellId,
             headerIdentifier: ingredientTableHeaderId)
         ingredientView = IngredientView(ingredientViewModel: ingredientViewModel)
+        
+        titleLabel.text = title
         super.init(nibName: nil, bundle: nil)
     }
     

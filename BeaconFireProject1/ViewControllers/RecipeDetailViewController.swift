@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol RecipeDetailViewControllerDelegate: AnyObject {
+    func updateRecipe(recipe: RecipeModel, tag: Int)
+}
+
 class RecipeDetailViewController: UIViewController {
     private var recipe: RecipeModel
+    private let tag: Int
+    weak var delegate: RecipeDetailViewControllerDelegate?
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -18,6 +24,7 @@ class RecipeDetailViewController: UIViewController {
     
     private let recipeImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .lightGray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -28,6 +35,14 @@ class RecipeDetailViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .red
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let descriptionTextView: UITextView = {
@@ -76,7 +91,7 @@ class RecipeDetailViewController: UIViewController {
         return textView
     }()
     
-    init(recipe: RecipeModel) {
+    init(recipe: RecipeModel, tag: Int) {
         self.recipe = recipe
         recipeImageView.image = recipe.image
         recipeNameLabel.text = recipe.name
@@ -89,6 +104,8 @@ class RecipeDetailViewController: UIViewController {
             indentifier: ingredientTableCellId,
             headerIdentifier: ingredientTableHeaderId)
         ingredientView = IngredientView(ingredientViewModel: ingredientViewModel)
+        
+        self.tag = tag
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,9 +120,12 @@ class RecipeDetailViewController: UIViewController {
         navigationItem.setRightBarButton(UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonPressed)), animated: true)
         scrollView.contentInsetAdjustmentBehavior = .never
         
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        
         view.addSubview(scrollView)
         scrollView.addSubview(recipeImageView)
         scrollView.addSubview(recipeNameLabel)
+        scrollView.addSubview(favoriteButton)
         scrollView.addSubview(descriptionTextView)
         scrollView.addSubview(ingredientsLabel)
         scrollView.addSubview(ingredientView)
@@ -120,17 +140,22 @@ class RecipeDetailViewController: UIViewController {
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         scrollView.contentSize = view.frame.size
         
-        let imageSize = recipeImageView.image?.size
         let width = view.frame.width
+        recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        recipeImageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        let imageSize = recipeImageView.image?.size
         if let imageSize {
             let heightRatio = imageSize.height / (imageSize.width == 0 ? 1 : imageSize.width)
-            recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-            recipeImageView.widthAnchor.constraint(equalToConstant: width).isActive = true
-            recipeImageView.heightAnchor.constraint(equalToConstant: width * heightRatio).isActive = true
+            recipeImageView.heightAnchor.constraint(equalTo: scrollView.widthAnchor, constant: heightRatio).isActive = true
+        } else {
+            recipeImageView.heightAnchor.constraint(equalToConstant: width * 0.6).isActive = true
         }
         
         recipeNameLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         recipeNameLabel.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor, constant: 15).isActive = true
+        
+        favoriteButton.centerYAnchor.constraint(equalTo: recipeNameLabel.centerYAnchor).isActive = true
+        favoriteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         
         descriptionTextView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 20).isActive = true
         descriptionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
@@ -153,7 +178,19 @@ class RecipeDetailViewController: UIViewController {
     }
     
     @objc func editButtonPressed(_ sender: UIButton) {
-        let vc = EditRecipeViewController(recipe: recipe)
+        let vc = EditRecipeViewController(recipe: recipe, title: "Edit Recipe")
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func favoriteButtonPressed(_ sender: UIButton) {
+        recipe.isFavorite = !recipe.isFavorite
+        
+        if recipe.isFavorite {
+            favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+        
+        delegate?.updateRecipe(recipe: recipe, tag: tag)
     }
 }

@@ -18,6 +18,9 @@ class TagView: UIView {
         }
     }
     
+    private var heightConstraint: NSLayoutConstraint?
+    private var widthConstraint: NSLayoutConstraint?
+    
     private let button: UIButton = {
         let button = UIButton()
         button.setTitleColor(.darkGray, for: .normal)
@@ -28,6 +31,15 @@ class TagView: UIView {
         return button
     }()
     
+    override var tag: Int {
+        get {
+            return button.tag
+        }
+        set(newValue) {
+            button.tag = newValue
+        }
+    }
+    
     var text: String {
         get {
             button.titleLabel?.text ?? ""
@@ -36,6 +48,8 @@ class TagView: UIView {
             button.setTitle(newValue, for: .normal)
         }
     }
+    
+    var buttonPressHandler: ((_ tagView: TagView) -> ())?
     
     init() {
         super.init(frame: .zero)
@@ -56,11 +70,28 @@ class TagView: UIView {
     }
     
     func setConstraints() {
-        widthAnchor.constraint(equalToConstant: width).isActive = true
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        if let widthConstraint {
+            removeConstraint(widthConstraint)
+        }
+        if let heightConstraint {
+            removeConstraint(heightConstraint)
+        }
+        
+        widthConstraint = widthAnchor.constraint(equalToConstant: width)
+        widthConstraint!.isActive = true
+        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+        heightConstraint!.isActive = true
         
         button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
         button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1).isActive = true
+    }
+    
+    func setWidth(width: Double) {
+        if let widthConstraint {
+            removeConstraint(widthConstraint)
+        }
+        widthConstraint = widthAnchor.constraint(equalToConstant: width)
+        widthConstraint!.isActive = true
     }
     
     func toggle() {
@@ -69,13 +100,21 @@ class TagView: UIView {
         }
         isSelected = !isSelected
         if isSelected {
-            button.backgroundColor = UIColor(white: 210 / 255, alpha: 1)
+            button.backgroundColor = UIColor(red: 10 / 255, green: 95 / 255, blue: 255 / 255, alpha: 0.7)
+            button.setTitleColor(.white, for: .normal)
         } else {
             button.backgroundColor = .clear
+            button.setTitleColor(.darkGray, for: .normal)
         }
     }
     
-    func addTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
-        button.addTarget(target, action: action, for: event)
+    func addTarget(action: @escaping (_ tagView: TagView) -> (), for event: UIControl.Event) {
+        // propagate touch event to tagview
+        buttonPressHandler = action
+        button.addTarget(self, action: #selector(buttonPressed), for: event)
+    }
+    
+    @objc private func buttonPressed(_ sender: UIButton) {
+        buttonPressHandler?(self)
     }
 }

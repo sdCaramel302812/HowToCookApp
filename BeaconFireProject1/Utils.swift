@@ -58,9 +58,13 @@ class Utils {
             return image
         }
         let originalWHRatio = image.size.width / image.size.height
-        let rect = originalWHRatio > WHRatio
-            ? CGRect(origin: .zero, size: CGSize(width: image.size.height * WHRatio, height: image.size.height))
-        : CGRect(origin: .zero, size: CGSize(width: image.size.width, height: image.size.width / WHRatio))
+        let size = originalWHRatio > WHRatio
+            ? CGSize(width: image.size.height * WHRatio, height: image.size.height)
+            : CGSize(width: image.size.width, height: image.size.width / WHRatio)
+        let origin = originalWHRatio > WHRatio
+            ? CGPoint(x: (image.size.width - size.width) / 2, y: 0)
+            : CGPoint(x: 0, y: (image.size.height - size.height) / 2)
+        let rect = CGRect(origin: origin, size: size)
         let croppedCGImage = cgImage.cropping(to: rect)
         return UIImage(cgImage: croppedCGImage!)
     }

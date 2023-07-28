@@ -31,6 +31,8 @@
 		0B3F0DA12A72C1C100A4C843 /* IngredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0DA02A72C1C100A4C843 /* IngredientTableViewCell.swift */; };
 		0B3F0DA32A72CD6C00A4C843 /* IngredientTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0DA22A72CD6C00A4C843 /* IngredientTableHeader.swift */; };
 		0B3F0DA52A72D9A800A4C843 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0DA42A72D9A800A4C843 /* InputTextView.swift */; };
+		0B3F0DA72A7310A100A4C843 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0DA62A7310A100A4C843 /* RecipeCell.swift */; };
+		0B3F0DA92A733E2D00A4C843 /* HomeRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0DA82A733E2D00A4C843 /* HomeRecipeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		0B3F0DA02A72C1C100A4C843 /* IngredientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCell.swift; sourceTree = "<group>"; };
 		0B3F0DA22A72CD6C00A4C843 /* IngredientTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableHeader.swift; sourceTree = "<group>"; };
 		0B3F0DA42A72D9A800A4C843 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
+		0B3F0DA62A7310A100A4C843 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
+		0B3F0DA82A733E2D00A4C843 /* HomeRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRecipeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,7 @@
 				0B3F0DA02A72C1C100A4C843 /* IngredientTableViewCell.swift */,
 				0B3F0DA22A72CD6C00A4C843 /* IngredientTableHeader.swift */,
 				0B3F0DA42A72D9A800A4C843 /* InputTextView.swift */,
+				0B3F0DA62A7310A100A4C843 /* RecipeCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 				0B3F0D8C2A71BD3100A4C843 /* HomeCategoriesViewModel.swift */,
 				0B3F0D902A71DE1C00A4C843 /* LoginViewModel.swift */,
 				0B3F0D9E2A72BDD700A4C843 /* IngredientViewModel.swift */,
+				0B3F0DA82A733E2D00A4C843 /* HomeRecipeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -237,8 +243,10 @@
 				0B3F0D912A71DE1C00A4C843 /* LoginViewModel.swift in Sources */,
 				0B3F0DA32A72CD6C00A4C843 /* IngredientTableHeader.swift in Sources */,
 				0B3F0D632A71844200A4C843 /* SceneDelegate.swift in Sources */,
+				0B3F0DA72A7310A100A4C843 /* RecipeCell.swift in Sources */,
 				0B3F0D9B2A72B48300A4C843 /* Utils.swift in Sources */,
 				0B3F0D832A718CE300A4C843 /* EditRecipeViewController.swift in Sources */,
+				0B3F0DA92A733E2D00A4C843 /* HomeRecipeViewModel.swift in Sources */,
 				0B3F0DA52A72D9A800A4C843 /* InputTextView.swift in Sources */,
 				0B3F0D7F2A718CC800A4C843 /* SettingViewController.swift in Sources */,
 				0B3F0D9F2A72BDD700A4C843 /* IngredientViewModel.swift in Sources */,

@@ -13,6 +13,7 @@ class IngredientView: UIView {
     
     private let ingredientTableView: UITableView = {
         let tableView = UITableView()
+        tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

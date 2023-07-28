@@ -23,8 +23,9 @@
         <attribute name="descriptions" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="instructions" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="isA" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecipeCategories" inverseName="recipe" inverseEntity="RecipeCategories"/>
+        <relationship name="isA" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeCategories" inverseName="recipe" inverseEntity="RecipeCategories"/>
         <relationship name="uses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeIngredients" inverseName="recipe" inverseEntity="RecipeIngredients"/>
     </entity>
 </model>

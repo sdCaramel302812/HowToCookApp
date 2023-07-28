@@ -161,6 +161,8 @@ class RecipeDetailViewController: UIViewController {
         descriptionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         descriptionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         
+        //descriptionTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
         ingredientsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
         
@@ -175,6 +177,8 @@ class RecipeDetailViewController: UIViewController {
         instructionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         instructionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         instructionTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
+        
+        //instructionTextView.heightAnchor.constraint(equalToConstant: 300).isActive = true
     }
     
     @objc func editButtonPressed(_ sender: UIButton) {

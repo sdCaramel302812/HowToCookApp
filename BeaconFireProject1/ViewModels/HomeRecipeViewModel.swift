@@ -13,15 +13,67 @@ protocol HomeRecipeViewModelDelegate: AnyObject {
 }
 
 class HomeRecipeViewModel: NSObject {
-    var recipes: [RecipeModel]
+    private var coreData: CoreDataStack
+    var recipes: [RecipeModel] = []
     weak var delegate: HomeRecipeViewModelDelegate?
 
     let reuseIdentifier: String
     let categoryCellId = "categoryCellId"
     
-    init(recipes: [RecipeModel], identifier: String) {
-        self.recipes = recipes
+    init(coreData: CoreDataStack, identifier: String) {
+        self.coreData = coreData
         reuseIdentifier = identifier
+        super.init()
+        loadCoreData()
+    }
+    
+    func loadCoreData() {
+        let recipeRequest = Recipes.fetchRequest()
+        let recipe = coreData.fetch(recipeRequest)
+        guard let recipe else {
+            coreData.initCoreData()
+            return
+        }
+        self.recipes = recipeToRecipeModel(recipes: recipe)
+        
+    }
+    
+    func recipeToRecipeModel(recipes: [Recipes]) -> [RecipeModel] {
+        var result: [RecipeModel] = []
+        for recipe in recipes {
+            let name = recipe.name ?? ""
+            let image = UIImage(named: recipe.image ?? "")
+            let description = recipe.descriptions ?? ""
+            let instruction = recipe.instructions ?? ""
+            let isFavorite = recipe.isFavorite
+            var categories: [String] = []
+            if let categoryRelation = recipe.isA {
+                for item in categoryRelation {
+                    if let cat = (item as? RecipeCategories)?.category?.name {
+                        categories.append(cat)
+                    }
+                }
+            }
+            var ingredients: [(ingredient: IngredientModel, qty: Double)] = []
+            if let ingredientRelation = recipe.uses {
+                for item in ingredientRelation {
+                    if let ing = (item as? RecipeIngredients)?.ingredient,
+                       let qty = (item as? RecipeIngredients)?.quantity {
+                        ingredients.append((ingredientToIngredientModel(ingredient: ing), qty))
+                    }
+                }
+            }
+            let recipeModel = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, isFavorite: isFavorite)
+            result.append(recipeModel)
+        }
+        return result
+    }
+    
+    func ingredientToIngredientModel(ingredient: Ingredients) -> IngredientModel {
+        return IngredientModel(
+            name: ingredient.name ?? "",
+            image: UIImage(named: ingredient.image ?? ""),
+            unit: ingredient.unit ?? "")
     }
 }
 
@@ -60,6 +112,4 @@ extension HomeRecipeViewModel: RecipeCellDelegate {
     func updateFavorite(tag: Int) {
         recipes[tag].isFavorite = !recipes[tag].isFavorite
     }
-    
-    
 }

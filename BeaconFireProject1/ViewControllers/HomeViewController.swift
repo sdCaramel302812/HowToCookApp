@@ -90,7 +90,9 @@ class HomeViewController: UIViewController {
                 (ingredient: IngredientModel(name: "chicken breasts", image: UIImage(named: "KungPaoChicken"), unit: "g"), qty: 350.0),
                 (ingredient: IngredientModel(name: "green onion", unit: "g"), qty: 180.0),
             ]), count: 5)
-        recipeViewModel = HomeRecipeViewModel(recipes: mockRecipe, identifier: recipeCellIdentifier)
+        
+        let coreStack = AppDelegate.sharedCoreData
+        recipeViewModel = HomeRecipeViewModel(coreData: coreStack, identifier: recipeCellIdentifier)
         recipeViewModel.delegate = self
         recipeCollectionView.delegate = recipeViewModel
         recipeCollectionView.dataSource = recipeViewModel

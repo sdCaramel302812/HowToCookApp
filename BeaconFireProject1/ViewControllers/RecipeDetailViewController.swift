@@ -116,7 +116,9 @@ class RecipeDetailViewController: UIViewController {
         ingredientView = IngredientView(ingredientViewModel: ingredientViewModel)
         
         self.tag = tag
+        
         super.init(nibName: nil, bundle: nil)
+        setFavorite(isFavorite: recipe.isFavorite)
     }
     
     required init?(coder: NSCoder) {
@@ -210,14 +212,17 @@ class RecipeDetailViewController: UIViewController {
     }
     
     @objc func favoriteButtonPressed(_ sender: UIButton) {
-        recipe.isFavorite = !recipe.isFavorite
+        setFavorite(isFavorite: !recipe.isFavorite)
         
+        delegate?.updateRecipe(recipe: recipe, tag: tag)
+    }
+    
+    private func setFavorite(isFavorite: Bool) {
+        recipe.isFavorite = isFavorite
         if recipe.isFavorite {
             favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
             favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        
-        delegate?.updateRecipe(recipe: recipe, tag: tag)
     }
 }

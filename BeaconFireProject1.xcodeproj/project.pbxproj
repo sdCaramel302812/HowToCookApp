@@ -10,7 +10,7 @@
 		0B3F0D612A71844200A4C843 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D602A71844200A4C843 /* AppDelegate.swift */; };
 		0B3F0D632A71844200A4C843 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D622A71844200A4C843 /* SceneDelegate.swift */; };
 		0B3F0D652A71844200A4C843 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D642A71844200A4C843 /* LoginViewController.swift */; };
-		0B3F0D6B2A71844200A4C843 /* BeaconFireProject1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D692A71844200A4C843 /* BeaconFireProject1.xcdatamodeld */; };
+		0B3F0D6B2A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D692A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld */; };
 		0B3F0D6D2A71844300A4C843 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B3F0D6C2A71844300A4C843 /* Assets.xcassets */; };
 		0B3F0D702A71844300A4C843 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B3F0D6E2A71844300A4C843 /* LaunchScreen.storyboard */; };
 		0B3F0D7C2A718C9D00A4C843 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3F0D7B2A718C9D00A4C843 /* HomeViewController.swift */; };
@@ -105,7 +105,7 @@
 				0B3F0D6C2A71844300A4C843 /* Assets.xcassets */,
 				0B3F0D6E2A71844300A4C843 /* LaunchScreen.storyboard */,
 				0B3F0D712A71844300A4C843 /* Info.plist */,
-				0B3F0D692A71844200A4C843 /* BeaconFireProject1.xcdatamodeld */,
+				0B3F0D692A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld */,
 				0B3F0D9A2A72B48300A4C843 /* Utils.swift */,
 			);
 			path = BeaconFireProject1;
@@ -235,7 +235,7 @@
 				0B3F0D932A71E2BD00A4C843 /* RecipeModel.swift in Sources */,
 				0B3F0D992A71F98200A4C843 /* CoreDataStack.swift in Sources */,
 				0B3F0D812A718CD600A4C843 /* RecipeDetailViewController.swift in Sources */,
-				0B3F0D6B2A71844200A4C843 /* BeaconFireProject1.xcdatamodeld in Sources */,
+				0B3F0D6B2A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld in Sources */,
 				0B3F0D972A71E2DD00A4C843 /* IngredientModel.swift in Sources */,
 				0B3F0D612A71844200A4C843 /* AppDelegate.swift in Sources */,
 				0B3F0D8F2A71BFD100A4C843 /* HomeCategoriesCell.swift in Sources */,
@@ -462,13 +462,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0B3F0D692A71844200A4C843 /* BeaconFireProject1.xcdatamodeld */ = {
+		0B3F0D692A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				0B3F0D6A2A71844200A4C843 /* BeaconFireProject1.xcdatamodel */,
 			);
 			currentVersion = 0B3F0D6A2A71844200A4C843 /* BeaconFireProject1.xcdatamodel */;
-			path = BeaconFireProject1.xcdatamodeld;
+			path = "BeaconFireProject1-1.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

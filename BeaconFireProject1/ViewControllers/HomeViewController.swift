@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {
         let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         button.backgroundColor = UIColor(red: 10 / 255, green: 95 / 255, blue: 255 / 255, alpha: 0.7)
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -66,32 +66,14 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let mockCategory = [
-            "breakfast",
-            "lunch",
-            "dinner",
-            "vegetarian",
-            "non-vegetarian",
-            "seafood",
-            "soup"
-        ]
-        categoriesViewModel = HomeCategoriesViewModel(categories: mockCategory, identifier: categoriesCellIdentifier)
+        let coreStack = AppDelegate.sharedCoreData
+        
+        categoriesViewModel = HomeCategoriesViewModel(coreData: coreStack, identifier: categoriesCellIdentifier)
+        categoriesViewModel.delegate = self
         categoriesCollectionView.delegate = categoriesViewModel
         categoriesCollectionView.dataSource = categoriesViewModel
         categoriesCollectionView.register(HomeCategoriesCell.self, forCellWithReuseIdentifier: categoriesCellIdentifier)
         
-        let mockRecipe = Array(repeating: RecipeModel(
-            name: "Kung Pao Chicken",
-            image: UIImage(named: "KungPaoChicken"),
-            description: "Simple sharing of old-school Sichuan cuisine",
-            instruction: String(repeating: "a", count: 1000),
-            categories: ["non-vegetarian", "lunch"],
-            ingredients: [
-                (ingredient: IngredientModel(name: "chicken breasts", image: UIImage(named: "KungPaoChicken"), unit: "g"), qty: 350.0),
-                (ingredient: IngredientModel(name: "green onion", unit: "g"), qty: 180.0),
-            ]), count: 5)
-        
-        let coreStack = AppDelegate.sharedCoreData
         recipeViewModel = HomeRecipeViewModel(coreData: coreStack, identifier: recipeCellIdentifier)
         recipeViewModel.delegate = self
         recipeCollectionView.delegate = recipeViewModel
@@ -121,9 +103,9 @@ class HomeViewController: UIViewController {
         recipeCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         addRecipeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -40).isActive = true
-        addRecipeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        addRecipeButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        addRecipeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        addRecipeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        addRecipeButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        addRecipeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     @objc private func addButtonPressed(_ sender: UIButton) {
@@ -146,5 +128,11 @@ extension HomeViewController: RecipeDetailViewControllerDelegate {
         recipeViewModel.recipes[tag] = recipe
         recipeCollectionView.reloadData()
     }
-    
+}
+
+extension HomeViewController: HomeCategoriesViewModelDelegate {
+    func categorySelected(selected: [String]) {
+        recipeViewModel.selectedCategories = selected
+        recipeCollectionView.reloadData()
+    }
 }

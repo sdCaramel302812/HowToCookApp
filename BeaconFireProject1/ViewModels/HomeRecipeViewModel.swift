@@ -14,8 +14,25 @@ protocol HomeRecipeViewModelDelegate: AnyObject {
 
 class HomeRecipeViewModel: NSObject {
     private var coreData: CoreDataStack
-    var recipes: [RecipeModel] = []
+    var recipes: [Int: RecipeModel] = [:]
     weak var delegate: HomeRecipeViewModelDelegate?
+    
+    var selectedCategories: [String] = []
+    var filteredRecipes: [RecipeModel] {
+        get {
+            if selectedCategories.count == 0 {
+                return Array(recipes.values)
+            }
+            return recipes.values.filter {
+                for category in selectedCategories {
+                    if !$0.categories.contains(category) {
+                        return false
+                    }
+                }
+                return true
+            }
+        }
+    }
 
     let reuseIdentifier: String
     let categoryCellId = "categoryCellId"
@@ -35,12 +52,12 @@ class HomeRecipeViewModel: NSObject {
             return
         }
         self.recipes = recipeToRecipeModel(recipes: recipe)
-        
     }
     
-    func recipeToRecipeModel(recipes: [Recipes]) -> [RecipeModel] {
-        var result: [RecipeModel] = []
-        for recipe in recipes {
+    func recipeToRecipeModel(recipes: [Recipes]) -> [Int: RecipeModel] {
+        var result: [Int: RecipeModel] = [:]
+        for i in 0..<recipes.count {
+            let recipe = recipes[i]
             let name = recipe.name ?? ""
             let image = UIImage(named: recipe.image ?? "")
             let description = recipe.descriptions ?? ""
@@ -65,8 +82,8 @@ class HomeRecipeViewModel: NSObject {
                 }
             }
             ingredients.sort { $0.ingredient.name < $1.ingredient.name }
-            let recipeModel = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, isFavorite: isFavorite)
-            result.append(recipeModel)
+            let recipeModel = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, isFavorite: isFavorite, tag: i)
+            result[i] = recipeModel
         }
         return result
     }
@@ -88,19 +105,19 @@ extension HomeRecipeViewModel: UICollectionViewDelegateFlowLayout {
 
 extension HomeRecipeViewModel: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        recipes.count
+        filteredRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let recipe = recipes[indexPath.row]
+        let recipe = filteredRecipes[indexPath.row]
         let viewModel = HomeCategoriesViewModel(categories: recipe.categories, identifier: categoryCellId)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? RecipeCell else {
             let newCell = RecipeCell()
-            newCell.configure(category: viewModel, name: recipe.name, image: recipe.image, tag: indexPath.row, isFavorite: recipe.isFavorite)
+            newCell.configure(category: viewModel, name: recipe.name, image: recipe.image, tag: recipe.tag, isFavorite: recipe.isFavorite)
             newCell.delegate = self
             return newCell
         }
-        cell.configure(category: viewModel, name: recipe.name, image: recipe.image, tag: indexPath.row, isFavorite: recipe.isFavorite)
+        cell.configure(category: viewModel, name: recipe.name, image: recipe.image, tag: recipe.tag, isFavorite: recipe.isFavorite)
         cell.delegate = self
         return cell
     }
@@ -108,10 +125,17 @@ extension HomeRecipeViewModel: UICollectionViewDataSource {
 
 extension HomeRecipeViewModel: RecipeCellDelegate {
     func showDetail(tag: Int) {
-        delegate?.showDetail(recipe: recipes[tag], tag: tag)
+        print(tag)
+        guard let recipe = recipes[tag] else {
+            return
+        }
+        delegate?.showDetail(recipe: recipe, tag: tag)
     }
     
     func updateFavorite(tag: Int) {
-        recipes[tag].isFavorite = !recipes[tag].isFavorite
+        guard let recipe = recipes[tag] else {
+            return
+        }
+        recipes[tag]?.isFavorite = !recipe.isFavorite
     }
 }

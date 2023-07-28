@@ -8,9 +8,16 @@
 import Foundation
 import UIKit
 
+protocol HomeCategoriesViewModelDelegate: AnyObject {
+    func categorySelected(selected: [String])
+}
+
 class HomeCategoriesViewModel: NSObject {
+    weak var delegate: HomeCategoriesViewModelDelegate?
+    
     var isEditable = true
-    var categories: [String]
+    private var coreData: CoreDataStack?
+    var categories: [String] = []
     private var isSelected: [String: Bool] = [:]
     
     var selectedCategories: [String] {
@@ -27,6 +34,17 @@ class HomeCategoriesViewModel: NSObject {
     
     let reuseIdentifier: String
     
+    init(coreData: CoreDataStack, identifier: String) {
+        self.coreData = coreData
+        reuseIdentifier = identifier
+        
+        for category in categories {
+            isSelected[category] = false
+        }
+        super.init()
+        loadCoreData()
+    }
+    
     init(categories: [String], identifier: String) {
         self.categories = categories
         reuseIdentifier = identifier
@@ -36,9 +54,24 @@ class HomeCategoriesViewModel: NSObject {
         }
     }
     
+    func loadCoreData() {
+        let categoryRequest = Categories.fetchRequest()
+        let category = coreData?.fetch(categoryRequest)
+        guard let category else {
+            coreData?.initCoreData()
+            return
+        }
+        self.categories = categoriesToString(categories: category)
+    }
+    
+    private func categoriesToString(categories: [Categories]) -> [String] {
+        categories.map { $0.name ?? "" }
+    }
+    
     func categorySelected(_ sender: TagView) {
         sender.toggle()
         isSelected[categories[sender.tag]] = sender.isSelected
+        delegate?.categorySelected(selected: selectedCategories)
     }
 }
 

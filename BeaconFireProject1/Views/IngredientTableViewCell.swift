@@ -57,11 +57,11 @@ class IngredientTableViewCell: UITableViewCell {
         nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 35).isActive = true
         
-        unitLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        unitLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        
         qtyLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         qtyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50).isActive = true
+        
+        unitLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        unitLabel.leadingAnchor.constraint(equalTo: qtyLabel.trailingAnchor, constant: 25).isActive = true
     }
     
     func configure(image: UIImage?, name: String, qty: String, unit: String, height: Double) {

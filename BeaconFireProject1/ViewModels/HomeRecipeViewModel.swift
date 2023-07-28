@@ -54,6 +54,7 @@ class HomeRecipeViewModel: NSObject {
                     }
                 }
             }
+            categories.sort()
             var ingredients: [(ingredient: IngredientModel, qty: Double)] = []
             if let ingredientRelation = recipe.uses {
                 for item in ingredientRelation {
@@ -63,6 +64,7 @@ class HomeRecipeViewModel: NSObject {
                     }
                 }
             }
+            ingredients.sort { $0.ingredient.name < $1.ingredient.name }
             let recipeModel = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, isFavorite: isFavorite)
             result.append(recipeModel)
         }

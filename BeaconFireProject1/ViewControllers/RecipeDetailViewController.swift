@@ -45,6 +45,16 @@ class RecipeDetailViewController: UIViewController {
         return button
     }()
     
+    private let categoryStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .equalCentering
+        view.sizeToFit()
+        view.spacing = 10
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .black
@@ -126,11 +136,20 @@ class RecipeDetailViewController: UIViewController {
         scrollView.addSubview(recipeImageView)
         scrollView.addSubview(recipeNameLabel)
         scrollView.addSubview(favoriteButton)
+        scrollView.addSubview(categoryStackView)
         scrollView.addSubview(descriptionTextView)
         scrollView.addSubview(ingredientsLabel)
         scrollView.addSubview(ingredientView)
         scrollView.addSubview(instructionLabel)
         scrollView.addSubview(instructionTextView)
+        
+        for category in recipe.categories {
+            let tagView = TagView()
+            tagView.isSelectable = false
+            tagView.text = category
+            tagView.setConstraints()
+            categoryStackView.addArrangedSubview(tagView)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -138,7 +157,7 @@ class RecipeDetailViewController: UIViewController {
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        scrollView.contentSize = view.frame.size
+        //scrollView.contentSize = view.frame.size
         
         let width = view.frame.width
         recipeImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
@@ -146,7 +165,7 @@ class RecipeDetailViewController: UIViewController {
         let imageSize = recipeImageView.image?.size
         if let imageSize {
             let heightRatio = imageSize.height / (imageSize.width == 0 ? 1 : imageSize.width)
-            recipeImageView.heightAnchor.constraint(equalTo: scrollView.widthAnchor, constant: heightRatio).isActive = true
+            recipeImageView.heightAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: heightRatio).isActive = true
         } else {
             recipeImageView.heightAnchor.constraint(equalToConstant: width * 0.6).isActive = true
         }
@@ -157,7 +176,10 @@ class RecipeDetailViewController: UIViewController {
         favoriteButton.centerYAnchor.constraint(equalTo: recipeNameLabel.centerYAnchor).isActive = true
         favoriteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         
-        descriptionTextView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 20).isActive = true
+        categoryStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        categoryStackView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 20).isActive = true
+        
+        descriptionTextView.topAnchor.constraint(equalTo: categoryStackView.bottomAnchor, constant: 20).isActive = true
         descriptionTextView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         descriptionTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         
@@ -179,6 +201,7 @@ class RecipeDetailViewController: UIViewController {
         instructionTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
         
         //instructionTextView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        //ingredientsLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
     }
     
     @objc func editButtonPressed(_ sender: UIButton) {

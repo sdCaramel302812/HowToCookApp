@@ -9,7 +9,7 @@ import UIKit
 
 class IngredientView: UIView {
     //var ingredients: [(ingredient: IngredientModel, qty: Double)]
-    private let ingredientViewModel: IngredientViewModel
+    var ingredientViewModel: IngredientViewModel
     
     private let ingredientTableView: UITableView = {
         let tableView = UITableView()

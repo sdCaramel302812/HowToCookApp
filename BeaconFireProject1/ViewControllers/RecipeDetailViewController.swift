@@ -54,6 +54,7 @@ class RecipeDetailViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private var categorySubviews: [UIView] = []
     
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -76,7 +77,7 @@ class RecipeDetailViewController: UIViewController {
         return label
     }()
     
-    private let ingredientView: IngredientView
+    private var ingredientView: IngredientView
     private let ingredientRowHeight = 30.0
     private let ingredientTableCellId = "ingredientTableCell"
     private let ingredientTableHeaderId = "ingredientTableHeader"
@@ -103,21 +104,16 @@ class RecipeDetailViewController: UIViewController {
     
     init(recipe: RecipeModel, tag: Int) {
         self.recipe = recipe
-        recipeImageView.image = recipe.image
-        recipeNameLabel.text = recipe.name
-        descriptionTextView.text = recipe.description
-        instructionTextView.text = recipe.instruction
-        
         let ingredientViewModel = IngredientViewModel(
             ingredients: recipe.ingredients,
             rowHeight: ingredientRowHeight,
             indentifier: ingredientTableCellId,
             headerIdentifier: ingredientTableHeaderId)
         ingredientView = IngredientView(ingredientViewModel: ingredientViewModel)
-        
         self.tag = tag
         
         super.init(nibName: nil, bundle: nil)
+        setView(recipe: recipe)
         setFavorite(isFavorite: recipe.isFavorite)
     }
     
@@ -145,13 +141,7 @@ class RecipeDetailViewController: UIViewController {
         scrollView.addSubview(instructionLabel)
         scrollView.addSubview(instructionTextView)
         
-        for category in recipe.categories {
-            let tagView = TagView()
-            tagView.isSelectable = false
-            tagView.text = category
-            tagView.setConstraints()
-            categoryStackView.addArrangedSubview(tagView)
-        }
+        addCategoriesView(categories: recipe.categories)
     }
     
     override func viewDidLayoutSubviews() {
@@ -208,6 +198,7 @@ class RecipeDetailViewController: UIViewController {
     
     @objc func editButtonPressed(_ sender: UIButton) {
         let vc = EditRecipeViewController(recipe: recipe, title: "Edit Recipe")
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -224,5 +215,41 @@ class RecipeDetailViewController: UIViewController {
         } else {
             favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
+    }
+    
+    private func setView(recipe: RecipeModel) {
+        recipeImageView.image = recipe.image
+        recipeNameLabel.text = recipe.name
+        descriptionTextView.text = recipe.description
+        instructionTextView.text = recipe.instruction
+    }
+    
+    private func addCategoriesView(categories: [String]) {
+        for subview in categorySubviews {
+            categoryStackView.removeArrangedSubview(subview)
+        }
+        NSLayoutConstraint.deactivate(categorySubviews.flatMap { $0.constraints })
+        for subview in categorySubviews {
+            subview.removeFromSuperview()
+        }
+        categorySubviews.removeAll()
+        for category in categories {
+            let tagView = TagView()
+            tagView.isSelectable = false
+            tagView.text = category
+            tagView.setConstraints()
+            categorySubviews.append(tagView)
+            categoryStackView.addArrangedSubview(tagView)
+        }
+    }
+}
+
+extension RecipeDetailViewController: EditRecipeViewControllerDelegate {
+    func saveRecipe(recipe: RecipeModel) {
+        self.recipe = recipe
+        setView(recipe: recipe)
+        ingredientView.ingredientViewModel.ingredients = recipe.ingredients
+        addCategoriesView(categories: recipe.categories)
+        delegate?.updateRecipe(recipe: recipe, tag: recipe.tag)
     }
 }

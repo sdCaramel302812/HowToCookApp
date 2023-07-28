@@ -125,7 +125,6 @@ extension HomeRecipeViewModel: UICollectionViewDataSource {
 
 extension HomeRecipeViewModel: RecipeCellDelegate {
     func showDetail(tag: Int) {
-        print(tag)
         guard let recipe = recipes[tag] else {
             return
         }

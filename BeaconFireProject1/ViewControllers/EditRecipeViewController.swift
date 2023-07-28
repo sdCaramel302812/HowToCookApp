@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol EditRecipeViewControllerDelegate: AnyObject {
+    func saveRecipe(recipe: RecipeModel)
+}
+
 class EditRecipeViewController: UIViewController {
     private var recipe: RecipeModel
+    weak var delegate: EditRecipeViewControllerDelegate?
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -29,7 +34,36 @@ class EditRecipeViewController: UIViewController {
     
     private let descriptionInput = InputTextView(labelText: "Description")
     
-    //private let category
+    private let categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Categories"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let categoriesCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing = 8
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    var categoriesViewModel: HomeCategoriesViewModel!
+    let categoriesCellIdentifier = "categoriesCell"
+    
+    private let addCategoryButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .lightGray
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     private let ingredientsLabel: UILabel = {
         let label = UILabel()
@@ -38,6 +72,17 @@ class EditRecipeViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let addIngredientButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .lightGray
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let ingredientView: IngredientView
@@ -73,13 +118,25 @@ class EditRecipeViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
-        navigationItem.setRightBarButton(UIBarButtonItem(title: "Save", style: .plain, target: self, action: nil), animated: true)
+        navigationItem.setRightBarButton(UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonPressed)), animated: true)
+        
+        let coreStack = AppDelegate.sharedCoreData
+        
+        categoriesViewModel = HomeCategoriesViewModel(coreData: coreStack, identifier: categoriesCellIdentifier)
+        categoriesViewModel.delegate = self
+        categoriesCollectionView.delegate = categoriesViewModel
+        categoriesCollectionView.dataSource = categoriesViewModel
+        categoriesCollectionView.register(HomeCategoriesCell.self, forCellWithReuseIdentifier: categoriesCellIdentifier)
         
         view.addSubview(scrollView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(recipeNameInput)
         scrollView.addSubview(descriptionInput)
+        scrollView.addSubview(categoryLabel)
+        scrollView.addSubview(addCategoryButton)
+        scrollView.addSubview(categoriesCollectionView)
         scrollView.addSubview(ingredientsLabel)
+        scrollView.addSubview(addIngredientButton)
         scrollView.addSubview(ingredientView)
         scrollView.addSubview(instructionInput)
     }
@@ -104,8 +161,26 @@ class EditRecipeViewController: UIViewController {
         descriptionInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         descriptionInput.heightAnchor.constraint(equalToConstant: 140).isActive = true
         
-        ingredientsLabel.topAnchor.constraint(equalTo: descriptionInput.bottomAnchor, constant: 20).isActive = true
+        categoryLabel.topAnchor.constraint(equalTo: descriptionInput.bottomAnchor, constant: 20).isActive = true
+        categoryLabel.leadingAnchor.constraint(equalTo: recipeNameInput.leadingAnchor).isActive = true
+        
+        addCategoryButton.centerYAnchor.constraint(equalTo: categoryLabel.centerYAnchor).isActive = true
+        addCategoryButton.trailingAnchor.constraint(equalTo: descriptionInput.trailingAnchor).isActive = true
+        addCategoryButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        addCategoryButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        categoriesCollectionView.topAnchor.constraint(equalTo: addCategoryButton.bottomAnchor, constant: 20).isActive = true
+        categoriesCollectionView.leadingAnchor.constraint(equalTo: descriptionInput.leadingAnchor).isActive = true
+        categoriesCollectionView.trailingAnchor.constraint(equalTo: descriptionInput.trailingAnchor).isActive = true
+        categoriesCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        ingredientsLabel.topAnchor.constraint(equalTo: categoriesCollectionView.bottomAnchor, constant: 20).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: recipeNameInput.leadingAnchor).isActive = true
+        
+        addIngredientButton.centerYAnchor.constraint(equalTo: ingredientsLabel.centerYAnchor).isActive = true
+        addIngredientButton.trailingAnchor.constraint(equalTo: descriptionInput.trailingAnchor).isActive = true
+        addIngredientButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        addIngredientButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         ingredientView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 5).isActive = true
         ingredientView.leadingAnchor.constraint(equalTo: recipeNameInput.leadingAnchor).isActive = true
@@ -116,5 +191,26 @@ class EditRecipeViewController: UIViewController {
         instructionInput.trailingAnchor.constraint(equalTo: recipeNameInput.trailingAnchor).isActive = true
         instructionInput.heightAnchor.constraint(equalToConstant: 200).isActive = true
         instructionInput.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -200).isActive = true
+    }
+    
+    @objc private func saveButtonPressed(_ sender: UIButton) {
+        let name = recipeNameInput.inputText
+        let image = recipe.image
+        let description = descriptionInput.inputText
+        let categories = categoriesViewModel.selectedCategories
+        let ingredients = ingredientView.ingredientViewModel.ingredients
+        let instruction = instructionInput.inputText
+        let isFavorite = recipe.isFavorite
+        let tag = recipe.tag
+        let recipe = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, tag: tag)
+        
+        delegate?.saveRecipe(recipe: recipe)
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension EditRecipeViewController: HomeCategoriesViewModelDelegate {
+    func categorySelected(selected: [String]) {
+        
     }
 }

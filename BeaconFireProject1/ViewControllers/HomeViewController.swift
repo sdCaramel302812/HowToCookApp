@@ -36,6 +36,14 @@ class HomeViewController: UIViewController {
     }()
     private var isAcending = false
     
+    private let showFavoriteTag: TagView = {
+        let view = TagView()
+        view.text = "favorite"
+        view.isSelectable = true
+        view.setConstraints()
+        return view
+    }()
+    
     private let categoriesCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -90,6 +98,7 @@ class HomeViewController: UIViewController {
         
         view.addSubview(welcomeLabel)
         view.addSubview(acendingButton)
+        view.addSubview(showFavoriteTag)
         view.addSubview(categoriesCollectionView)
         view.addSubview(recipeCollectionView)
         view.addSubview(addRecipeButton)
@@ -97,6 +106,8 @@ class HomeViewController: UIViewController {
         addRecipeButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         
         acendingButton.addTarget(self, action: #selector(acendingButtonPressed), for: .touchUpInside)
+        
+        showFavoriteTag.addTarget(action: showFavoriteTagPressed, for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -106,8 +117,12 @@ class HomeViewController: UIViewController {
         acendingButton.centerYAnchor.constraint(equalTo: welcomeLabel.centerYAnchor).isActive = true
         acendingButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         
+        showFavoriteTag.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20).isActive = true
+        showFavoriteTag.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        showFavoriteTag.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         categoriesCollectionView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20).isActive = true
-        categoriesCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        categoriesCollectionView.leadingAnchor.constraint(equalTo: showFavoriteTag.trailingAnchor, constant: 10).isActive = true
         categoriesCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
@@ -137,6 +152,12 @@ class HomeViewController: UIViewController {
             sender.setImage(UIImage(systemName: "arrow.down"), for: .normal)
         }
         recipeViewModel.isAcending = isAcending
+        recipeCollectionView.reloadData()
+    }
+    
+    @objc private func showFavoriteTagPressed(_ sender: TagView) {
+        sender.toggle()
+        recipeViewModel.showFavorite = sender.isSelected
         recipeCollectionView.reloadData()
     }
 }

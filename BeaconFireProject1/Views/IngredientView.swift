@@ -10,6 +10,14 @@ import UIKit
 class IngredientView: UIView {
     //var ingredients: [(ingredient: IngredientModel, qty: Double)]
     var ingredientViewModel: IngredientViewModel
+    var serving: Int {
+        get {
+            ingredientViewModel.serving
+        }
+        set(newValue) {
+            ingredientViewModel.serving = newValue
+        }
+    }
     var isSwipeable: Bool {
         get {
             ingredientViewModel.isSwipeable

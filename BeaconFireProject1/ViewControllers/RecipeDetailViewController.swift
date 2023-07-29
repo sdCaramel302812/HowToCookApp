@@ -77,6 +77,12 @@ class RecipeDetailViewController: UIViewController {
         return label
     }()
     
+    private let servingPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
+    
     private var ingredientView: IngredientView
     private let ingredientRowHeight = 30.0
     private let ingredientTableCellId = "ingredientTableCell"
@@ -137,9 +143,13 @@ class RecipeDetailViewController: UIViewController {
         scrollView.addSubview(categoryStackView)
         scrollView.addSubview(descriptionTextView)
         scrollView.addSubview(ingredientsLabel)
+        scrollView.addSubview(servingPicker)
         scrollView.addSubview(ingredientView)
         scrollView.addSubview(instructionLabel)
         scrollView.addSubview(instructionTextView)
+        
+        servingPicker.delegate = self
+        servingPicker.dataSource = self
         
         addCategoriesView(categories: recipe.categories)
     }
@@ -179,6 +189,10 @@ class RecipeDetailViewController: UIViewController {
         
         ingredientsLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20).isActive = true
         ingredientsLabel.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
+        
+        servingPicker.centerYAnchor.constraint(equalTo: ingredientsLabel.centerYAnchor).isActive = true
+        servingPicker.trailingAnchor.constraint(equalTo: descriptionTextView.trailingAnchor).isActive = true
+        servingPicker.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         ingredientView.topAnchor.constraint(equalTo: ingredientsLabel.bottomAnchor, constant: 5).isActive = true
         ingredientView.leadingAnchor.constraint(equalTo: descriptionTextView.leadingAnchor).isActive = true
@@ -252,5 +266,26 @@ extension RecipeDetailViewController: EditRecipeViewControllerDelegate {
         ingredientView.reloadHeight()
         addCategoriesView(categories: recipe.categories)
         delegate?.saveRecipe(recipe: recipe, tag: recipe.tag)
+    }
+}
+
+extension RecipeDetailViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        ingredientView.serving = row + 1
+        ingredientView.reloadHeight()
+    }
+}
+
+extension RecipeDetailViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        10
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        String(row + 1)
     }
 }

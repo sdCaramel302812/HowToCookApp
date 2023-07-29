@@ -20,25 +20,41 @@ class HomeRecipeViewModel: NSObject {
     var selectedCategories: [String] = []
     var filteredRecipes: [RecipeModel] {
         get {
-            if selectedCategories.count == 0 {
-                return isAcending
-                    ? Array(recipes.values).sorted { $0.name > $1.name }
-                    : Array(recipes.values).sorted { $0.name < $1.name }
-            }
-            let filtered = recipes.values.filter {
-                for category in selectedCategories {
-                    if !$0.categories.contains(category) {
-                        return false
-                    }
-                }
-                return true
-            }
-            return isAcending
-                ? filtered.sorted { $0.name > $1.name }
-                : filtered.sorted { $0.name < $1.name }
+            let selected = filterSelected(Array(recipes.values))
+            let favorite = filterFavorite(selected)
+            let sorted = sortAcending(isAcending, original: favorite)
+            return sorted
         }
     }
     var isAcending = false
+    var showFavorite = false
+    
+    private func filterSelected(_ orignal: [RecipeModel]) -> [RecipeModel] {
+        if selectedCategories.count == 0 {
+            return orignal
+        }
+        return orignal.filter {
+            for category in selectedCategories {
+                if !$0.categories.contains(category) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+    
+    private func filterFavorite(_ original: [RecipeModel]) -> [RecipeModel] {
+        if showFavorite {
+            return original.filter { $0.isFavorite }
+        }
+        return original
+    }
+    
+    private func sortAcending(_ isAcending: Bool, original: [RecipeModel]) -> [RecipeModel] {
+        isAcending
+            ? original.sorted { $0.name > $1.name }
+            : original.sorted { $0.name < $1.name }
+    }
 
     let reuseIdentifier: String
     let categoryCellId = "categoryCellId"

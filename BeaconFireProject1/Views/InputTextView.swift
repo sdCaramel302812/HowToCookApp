@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol InputTextViewDelegate: AnyObject {
+    func inputTextChanged(old: String, new: String, tag: Int)
+}
+
 class InputTextView: UIView {
+    weak var delegate: InputTextViewDelegate?
+    var inputLimit: Int?
+    
     private let label: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -26,6 +33,7 @@ class InputTextView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    private var oldText = ""
 
     
     var inputText: String {
@@ -40,6 +48,8 @@ class InputTextView: UIView {
     init(labelText: String) {
         super.init(frame: .zero)
         label.text = labelText
+        oldText = labelText
+        textView.delegate = self
         
         setView()
     }
@@ -60,5 +70,18 @@ class InputTextView: UIView {
         textView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
         textView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         textView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    }
+}
+
+extension InputTextView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if let inputLimit {
+            if inputLimit < textView.text.count && oldText != textView.text {
+                textView.text = oldText
+                return
+            }
+        }
+        delegate?.inputTextChanged(old: oldText, new: textView.text, tag: tag)
+        oldText = textView.text
     }
 }

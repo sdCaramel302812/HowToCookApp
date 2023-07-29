@@ -32,7 +32,25 @@ class EditRecipeViewController: UIViewController {
     
     private let recipeNameInput = InputTextView(labelText: "Recipe Name")
     
+    private let nameLimitLabel: UILabel = {
+        let label = UILabel()
+        label.text = "limit"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let descriptionInput = InputTextView(labelText: "Description")
+    
+    private let descriptionLimitLabel: UILabel = {
+        let label = UILabel()
+        label.text = "limit"
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
@@ -99,6 +117,11 @@ class EditRecipeViewController: UIViewController {
         descriptionInput.inputText = recipe.description
         instructionInput.inputText = recipe.instruction
         
+        recipeNameInput.tag = 1
+        descriptionInput.tag = 2
+        nameLimitLabel.text = "limit: \(recipe.name.count)/50"
+        descriptionLimitLabel.text = "limit: \(recipe.description.count)/250"
+        
         let ingredientViewModel = IngredientViewModel(
             ingredients: recipe.ingredients,
             rowHeight: ingredientRowHeight,
@@ -132,7 +155,9 @@ class EditRecipeViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(recipeNameInput)
+        scrollView.addSubview(nameLimitLabel)
         scrollView.addSubview(descriptionInput)
+        scrollView.addSubview(descriptionLimitLabel)
         scrollView.addSubview(categoryLabel)
         scrollView.addSubview(addCategoryButton)
         scrollView.addSubview(categoriesCollectionView)
@@ -143,6 +168,17 @@ class EditRecipeViewController: UIViewController {
         
         addIngredientButton.addTarget(self, action: #selector(addIngredientButtonPressed), for: .touchUpInside)
         addCategoryButton.addTarget(self, action: #selector(addCategoryButtonPressed), for: .touchUpInside)
+        
+        recipeNameInput.delegate = self
+        descriptionInput.delegate = self
+        recipeNameInput.inputLimit = 50
+        descriptionInput.inputLimit = 250
+        if recipeNameInput.inputText.count >= 50 {
+            nameLimitLabel.textColor = .red
+        }
+        if descriptionInput.inputText.count >= 250 {
+            descriptionLimitLabel.textColor = .red
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -160,10 +196,16 @@ class EditRecipeViewController: UIViewController {
         recipeNameInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         recipeNameInput.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
+        nameLimitLabel.topAnchor.constraint(equalTo: recipeNameInput.topAnchor, constant: 5).isActive = true
+        nameLimitLabel.trailingAnchor.constraint(equalTo: recipeNameInput.trailingAnchor).isActive = true
+        
         descriptionInput.topAnchor.constraint(equalTo: recipeNameInput.bottomAnchor, constant: 20).isActive = true
         descriptionInput.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0.8).isActive = true
         descriptionInput.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         descriptionInput.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        
+        descriptionLimitLabel.topAnchor.constraint(equalTo: descriptionInput.topAnchor, constant: 5).isActive = true
+        descriptionLimitLabel.trailingAnchor.constraint(equalTo: descriptionInput.trailingAnchor).isActive = true
         
         categoryLabel.topAnchor.constraint(equalTo: descriptionInput.bottomAnchor, constant: 20).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: recipeNameInput.leadingAnchor).isActive = true
@@ -238,5 +280,25 @@ extension EditRecipeViewController: AddIngredientViewControllerDelegate {
         recipe.ingredients = ingredients
         ingredientView.ingredientViewModel.ingredients = ingredients
         ingredientView.reloadHeight()
+    }
+}
+
+extension EditRecipeViewController: InputTextViewDelegate {
+    func inputTextChanged(old: String, new: String, tag: Int) {
+        if tag == 1 {
+            nameLimitLabel.text = "limit: \(new.count)/50"
+            if new.count >= 50 {
+                nameLimitLabel.textColor = .red
+            } else {
+                nameLimitLabel.textColor = .black
+            }
+        } else if tag == 2 {
+            descriptionLimitLabel.text = "limit: \(new.count)/250"
+            if new.count >= 250 {
+                descriptionLimitLabel.textColor = .red
+            } else {
+                descriptionLimitLabel.textColor = .black
+            }
+        }
     }
 }

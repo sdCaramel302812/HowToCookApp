@@ -14,6 +14,12 @@ class IngredientViewModel: NSObject {
     let indentifier: String
     let headerIdentifier: String
     var isSwipeable = false
+    var serving: Int = 1
+    var sortedIngredients: [(ingredient: IngredientModel, qty: Double)] {
+        get {
+            ingredients.sorted { $0.ingredient.name < $1.ingredient.name }
+        }
+    }
     
     private let defaults = UserDefaults.standard
     
@@ -89,10 +95,10 @@ extension IngredientViewModel: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let (ingredient, qty) = ingredients[indexPath.row]
+        let (ingredient, qty) = sortedIngredients[indexPath.row]
         let measure = defaults.bool(forKey: "isMetric")
-            ? metricQty(unit: ingredient.unit, qty: qty)
-            : imperialQty(unit: ingredient.unit, qty: qty)
+            ? metricQty(unit: ingredient.unit, qty: qty * Double(serving))
+            : imperialQty(unit: ingredient.unit, qty: qty * Double(serving))
         guard let cell = tableView.dequeueReusableCell(withIdentifier: indentifier, for: indexPath) as? IngredientTableViewCell else {
             let newCell = IngredientTableViewCell()
             newCell.configure(image: ingredient.image, name: ingredient.name, qty: String(format: "%.2f", measure.qty), unit: measure.unit, height: rowHeight)

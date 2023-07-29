@@ -21,9 +21,11 @@ class HomeRecipeViewModel: NSObject {
     var filteredRecipes: [RecipeModel] {
         get {
             if selectedCategories.count == 0 {
-                return Array(recipes.values)
+                return isAcending
+                    ? Array(recipes.values).sorted { $0.name > $1.name }
+                    : Array(recipes.values).sorted { $0.name < $1.name }
             }
-            return recipes.values.filter {
+            let filtered = recipes.values.filter {
                 for category in selectedCategories {
                     if !$0.categories.contains(category) {
                         return false
@@ -31,8 +33,12 @@ class HomeRecipeViewModel: NSObject {
                 }
                 return true
             }
+            return isAcending
+                ? filtered.sorted { $0.name > $1.name }
+                : filtered.sorted { $0.name < $1.name }
         }
     }
+    var isAcending = false
 
     let reuseIdentifier: String
     let categoryCellId = "categoryCellId"
@@ -45,6 +51,8 @@ class HomeRecipeViewModel: NSObject {
     }
     
     func loadCoreData() {
+        coreData.removeDuplicatedIngredients()
+        
         let recipeRequest = Recipes.fetchRequest()
         let recipe = coreData.fetch(recipeRequest)
         guard let recipe else {

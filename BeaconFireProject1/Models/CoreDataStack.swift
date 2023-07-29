@@ -36,6 +36,22 @@ class CoreDataStack {
         }
     }
     
+    func removeDuplicatedIngredients() {
+        let ingredientRequest = Ingredients.fetchRequest()
+        let ingredientRefs = fetch(ingredientRequest)
+        var existed: [String: Ingredients] = [:]
+        guard let ingredientRefs else {
+            return
+        }
+        for ing in ingredientRefs {
+            if let _ = existed[ing.name ?? ""] {
+                persistentContainer.viewContext.delete(ing)
+                continue
+            }
+            existed[ing.name ?? ""] = ing
+        }
+    }
+    
     func initCoreData() {
         deleteData()
         print("initializing")

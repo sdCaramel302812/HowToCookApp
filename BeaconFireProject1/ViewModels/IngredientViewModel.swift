@@ -15,6 +15,8 @@ class IngredientViewModel: NSObject {
     let headerIdentifier: String
     var isSwipeable = false
     
+    private let defaults = UserDefaults.standard
+    
     init(ingredients: [(ingredient: IngredientModel, qty: Double)], rowHeight: Double, indentifier: String, headerIdentifier: String) {
         self.ingredients = ingredients
         self.rowHeight = rowHeight
@@ -24,6 +26,31 @@ class IngredientViewModel: NSObject {
     
     func totalHeight() -> Double {
         return rowHeight * Double(ingredients.count + 2)
+    }
+    
+    let ozOverG = 28.3495
+    let tbspOverMl = 14.7867
+    
+    func imperialQty(unit: String, qty: Double) -> (unit: String, qty: Double) {
+        switch unit.lowercased() {
+        case "g":
+            return ("oz", qty / ozOverG)
+        case "ml":
+            return ("tbsp", qty / tbspOverMl)
+        default:
+            return (unit, qty)
+        }
+    }
+    
+    func metricQty(unit: String, qty: Double) -> (unit: String, qty: Double) {
+        switch unit.lowercased() {
+        case "oz":
+            return ("g", qty * ozOverG)
+        case "tbsp":
+            return ("mL", qty * tbspOverMl)
+        default:
+            return (unit, qty)
+        }
     }
 }
 
@@ -62,11 +89,16 @@ extension IngredientViewModel: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: indentifier, for: indexPath) as? IngredientTableViewCell else {
-            return IngredientTableViewCell()
-        }
         let (ingredient, qty) = ingredients[indexPath.row]
-        cell.configure(image: ingredient.image, name: ingredient.name, qty: String(qty), unit: ingredient.unit, height: rowHeight)
+        let measure = defaults.bool(forKey: "isMetric")
+            ? metricQty(unit: ingredient.unit, qty: qty)
+            : imperialQty(unit: ingredient.unit, qty: qty)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: indentifier, for: indexPath) as? IngredientTableViewCell else {
+            let newCell = IngredientTableViewCell()
+            newCell.configure(image: ingredient.image, name: ingredient.name, qty: String(format: "%.2f", measure.qty), unit: measure.unit, height: rowHeight)
+            return newCell
+        }
+        cell.configure(image: ingredient.image, name: ingredient.name, qty: String(format: "%.2f", measure.qty), unit: measure.unit, height: rowHeight)
         return cell
     }
 }

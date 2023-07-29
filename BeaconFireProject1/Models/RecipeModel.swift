@@ -56,6 +56,32 @@ struct RecipeModel {
     }
     
     private func updateRefIngredient(coreData: CoreDataStack, ref: Recipes) {
-        
+        guard let refIngredients = ref.uses else {
+            return
+        }
+        for ingredient in refIngredients {
+            if let ing = ingredient as? RecipeIngredients {
+                ref.removeFromUses(ing)
+                coreData.persistentContainer.viewContext.delete(ing)
+            }
+        }
+        let ingredientRequest = Ingredients.fetchRequest()
+        let ingredientRefs = coreData.fetch(ingredientRequest)
+        guard let ingredientRefs else {
+            return
+        }
+        for ingredient in ingredientRefs {
+            for (model, qty) in ingredients {
+                if model.name != ingredient.name {
+                    continue
+                }
+                let recipeIng = RecipeIngredients(context: coreData.persistentContainer.viewContext)
+                recipeIng.recipe = ref
+                recipeIng.ingredient = ingredient
+                recipeIng.quantity = qty
+                ref.addToUses(recipeIng)
+                ingredient.addToUsedBy(recipeIng)
+            }
+        }
     }
 }

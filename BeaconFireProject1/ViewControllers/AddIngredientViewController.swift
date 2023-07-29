@@ -128,7 +128,14 @@ class AddIngredientViewController: UIViewController {
     
     func saveNewIngredients() {
         let context = coreData.persistentContainer.viewContext
+        let ingredientRequest = Ingredients.fetchRequest()
+        let ingredientRefs = coreData.fetch(ingredientRequest)
         for (name, (unit, _)) in addedIngredients {
+            if let ingredientRefs {
+                if ingredientRefs.contains(where: { $0.name == name }) {
+                    continue
+                }
+            }
             let ingredient = Ingredients(context: context)
             ingredient.name = name
             ingredient.unit = unit

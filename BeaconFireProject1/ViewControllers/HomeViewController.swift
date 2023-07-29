@@ -28,6 +28,14 @@ class HomeViewController: UIViewController {
         return label
     }()
     
+    private let acendingButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "arrow.down"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    private var isAcending = false
+    
     private let categoriesCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -81,16 +89,22 @@ class HomeViewController: UIViewController {
         recipeCollectionView.register(RecipeCell.self, forCellWithReuseIdentifier: recipeCellIdentifier)
         
         view.addSubview(welcomeLabel)
+        view.addSubview(acendingButton)
         view.addSubview(categoriesCollectionView)
         view.addSubview(recipeCollectionView)
         view.addSubview(addRecipeButton)
         
         addRecipeButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        
+        acendingButton.addTarget(self, action: #selector(acendingButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
         welcomeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
         welcomeLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        
+        acendingButton.centerYAnchor.constraint(equalTo: welcomeLabel.centerYAnchor).isActive = true
+        acendingButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         
         categoriesCollectionView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20).isActive = true
         categoriesCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
@@ -111,7 +125,19 @@ class HomeViewController: UIViewController {
     @objc private func addButtonPressed(_ sender: UIButton) {
         let emptyRecipe = RecipeModel(name: "", description: "", instruction: "", categories: [], ingredients: [])
         let vc = EditRecipeViewController(recipe: emptyRecipe, title: "Add Recipe")
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func acendingButtonPressed(_ sender: UIButton) {
+        isAcending = !isAcending
+        if isAcending {
+            sender.setImage(UIImage(systemName: "arrow.up"), for: .normal)
+        } else {
+            sender.setImage(UIImage(systemName: "arrow.down"), for: .normal)
+        }
+        recipeViewModel.isAcending = isAcending
+        recipeCollectionView.reloadData()
     }
 }
 
@@ -136,6 +162,21 @@ extension HomeViewController: RecipeDetailViewControllerDelegate {
 extension HomeViewController: HomeCategoriesViewModelDelegate {
     func categorySelected(selected: [String]) {
         recipeViewModel.selectedCategories = selected
+        recipeCollectionView.reloadData()
+    }
+}
+
+extension HomeViewController: EditRecipeViewControllerDelegate {
+    func saveRecipe(recipe: RecipeModel) {
+        let coreData = AppDelegate.sharedCoreData
+        let tag = recipeViewModel.recipes.count + 1
+        var mutRecipe = recipe
+        let recipes = Recipes(context: coreData.persistentContainer.viewContext)
+        mutRecipe.coreDataRef = recipes
+        mutRecipe.updateRef(coreData: coreData)
+        mutRecipe.tag = tag
+        recipeViewModel.recipes[tag] = mutRecipe
+        coreData.saveContext()
         recipeCollectionView.reloadData()
     }
 }

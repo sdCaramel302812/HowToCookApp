@@ -9,6 +9,8 @@ import UIKit
 
 class SettingViewController: UIViewController {
     let loginViewModel: LoginViewModel
+    private let defaults = UserDefaults.standard
+    private let isMetric = "isMetric"
     
     private let settingLabel: UILabel = {
         let label = UILabel()
@@ -74,6 +76,10 @@ class SettingViewController: UIViewController {
         
         toggleButton.addTarget(self, action: #selector(toggleChanged), for: .valueChanged)
         logoutButton.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
+        
+        if defaults.bool(forKey: isMetric) {
+            toggleButton.isOn = true
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,8 +103,10 @@ class SettingViewController: UIViewController {
     @objc private func toggleChanged(_ sender: UISwitch) {
         if sender.isOn {
             toggleLabel.text = "Measurement: metric"
+            defaults.set(true, forKey: isMetric)
         } else {
             toggleLabel.text = "Measurement: imperial"
+            defaults.set(false, forKey: isMetric)
         }
     }
     

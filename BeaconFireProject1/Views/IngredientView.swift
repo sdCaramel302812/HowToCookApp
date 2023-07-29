@@ -10,13 +10,23 @@ import UIKit
 class IngredientView: UIView {
     //var ingredients: [(ingredient: IngredientModel, qty: Double)]
     var ingredientViewModel: IngredientViewModel
+    var isSwipeable: Bool {
+        get {
+            ingredientViewModel.isSwipeable
+        }
+        set(newValue) {
+            ingredientViewModel.isSwipeable = newValue
+        }
+    }
     
-    private let ingredientTableView: UITableView = {
+    let ingredientTableView: UITableView = {
         let tableView = UITableView()
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    private var heightConstraint: NSLayoutConstraint?
     
     init(ingredientViewModel: IngredientViewModel) {
         self.ingredientViewModel = ingredientViewModel
@@ -43,11 +53,28 @@ class IngredientView: UIView {
     
     func setConstraints() {
         let height = ingredientViewModel.totalHeight()
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+        heightConstraint!.isActive = true
         
         ingredientTableView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         ingredientTableView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         ingredientTableView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        ingredientTableView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        ingredientTableView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+    }
+    
+    func addIngredient(ingredient: (IngredientModel, Double)) {
+        ingredientViewModel.ingredients.append(ingredient)
+        reloadHeight()
+    }
+    
+    func reloadHeight() {
+        ingredientTableView.reloadData()
+        
+        if let constraint = heightConstraint {
+            removeConstraint(constraint)
+        }
+        let height = ingredientViewModel.totalHeight()
+        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+        heightConstraint!.isActive = true
     }
 }

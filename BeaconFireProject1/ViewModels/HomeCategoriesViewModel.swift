@@ -30,6 +30,11 @@ class HomeCategoriesViewModel: NSObject {
             }
             return result
         }
+        set(newValue) {
+            for item in newValue {
+                isSelected[item] = true
+            }
+        }
     }
     
     let reuseIdentifier: String
@@ -94,6 +99,7 @@ extension HomeCategoriesViewModel: UICollectionViewDataSource {
             newCell.tagView.text = categories[indexPath.row]
             newCell.tagView.setConstraints()
             newCell.tagView.tag = indexPath.row
+            newCell.tagView.setSelected(isSelected[categories[indexPath.row]] ?? false)
             newCell.tagView.addTarget(action: categorySelected, for: .touchUpOutside)
             return newCell
         }
@@ -101,6 +107,7 @@ extension HomeCategoriesViewModel: UICollectionViewDataSource {
         cell.tagView.text = categories[indexPath.row]
         cell.tagView.setConstraints()
         cell.tagView.tag = indexPath.row
+        cell.tagView.setSelected(isSelected[categories[indexPath.row]] ?? false)
         cell.tagView.addTarget(action: categorySelected, for: .touchUpInside)
         return cell
     }

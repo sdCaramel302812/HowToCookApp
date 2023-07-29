@@ -13,6 +13,7 @@ class IngredientViewModel: NSObject {
     var rowHeight: Double
     let indentifier: String
     let headerIdentifier: String
+    var isSwipeable = false
     
     init(ingredients: [(ingredient: IngredientModel, qty: Double)], rowHeight: Double, indentifier: String, headerIdentifier: String) {
         self.ingredients = ingredients
@@ -33,6 +34,25 @@ extension IngredientViewModel: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return tableView.dequeueReusableHeaderFooterView(withIdentifier: headerIdentifier) as? IngredientTableHeader
+    }
+    
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        isSwipeable
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { _,_,_ in
+            self.ingredients.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        })])
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete", handler: { _,_,_ in
+            self.ingredients.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        })])
     }
 }
 

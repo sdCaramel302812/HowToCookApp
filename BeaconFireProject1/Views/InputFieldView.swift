@@ -18,6 +18,7 @@ class InputFieldView: UIView {
     private let textField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()

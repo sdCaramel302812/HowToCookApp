@@ -124,6 +124,7 @@ class EditRecipeViewController: UIViewController {
         
         categoriesViewModel = HomeCategoriesViewModel(coreData: coreStack, identifier: categoriesCellIdentifier)
         categoriesViewModel.delegate = self
+        categoriesViewModel.selectedCategories = recipe.categories
         categoriesCollectionView.delegate = categoriesViewModel
         categoriesCollectionView.dataSource = categoriesViewModel
         categoriesCollectionView.register(HomeCategoriesCell.self, forCellWithReuseIdentifier: categoriesCellIdentifier)
@@ -139,6 +140,9 @@ class EditRecipeViewController: UIViewController {
         scrollView.addSubview(addIngredientButton)
         scrollView.addSubview(ingredientView)
         scrollView.addSubview(instructionInput)
+        
+        addIngredientButton.addTarget(self, action: #selector(addIngredientButtonPressed), for: .touchUpInside)
+        addCategoryButton.addTarget(self, action: #selector(addCategoryButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -202,15 +206,37 @@ class EditRecipeViewController: UIViewController {
         let instruction = instructionInput.inputText
         let isFavorite = recipe.isFavorite
         let tag = recipe.tag
-        let recipe = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, tag: tag)
+        let recipe = RecipeModel(name: name, image: image, description: description, instruction: instruction, categories: categories, ingredients: ingredients, isFavorite: isFavorite, tag: tag, coreDataRef: recipe.coreDataRef)
         
         delegate?.saveRecipe(recipe: recipe)
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func addIngredientButtonPressed(_ sender: UIButton) {
+        let coreData = AppDelegate.sharedCoreData
+        let viewModel = IngredientViewModel(ingredients: recipe.ingredients, rowHeight: 40, indentifier: "id", headerIdentifier: "headId")
+        let vc = AddIngredientViewController(ingredientViewModel: viewModel, coreData: coreData)
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    
+    @objc private func addCategoryButtonPressed(_ sender: UIButton) {
+        let coreData = AppDelegate.sharedCoreData
+        let vc = AddCategoryViewController(coreData: coreData)
+        present(vc, animated: true)
     }
 }
 
 extension EditRecipeViewController: HomeCategoriesViewModelDelegate {
     func categorySelected(selected: [String]) {
         
+    }
+}
+
+extension EditRecipeViewController: AddIngredientViewControllerDelegate {
+    func updateIngredient(ingredients: [(IngredientModel, Double)]) {
+        recipe.ingredients = ingredients
+        ingredientView.ingredientViewModel.ingredients = ingredients
+        ingredientView.reloadHeight()
     }
 }

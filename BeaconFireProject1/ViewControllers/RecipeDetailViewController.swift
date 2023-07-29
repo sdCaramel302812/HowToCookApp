@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RecipeDetailViewControllerDelegate: AnyObject {
-    func updateRecipe(recipe: RecipeModel, tag: Int)
+    func saveRecipe(recipe: RecipeModel, tag: Int)
 }
 
 class RecipeDetailViewController: UIViewController {
@@ -205,7 +205,7 @@ class RecipeDetailViewController: UIViewController {
     @objc func favoriteButtonPressed(_ sender: UIButton) {
         setFavorite(isFavorite: !recipe.isFavorite)
         
-        delegate?.updateRecipe(recipe: recipe, tag: tag)
+        delegate?.saveRecipe(recipe: recipe, tag: tag)
     }
     
     private func setFavorite(isFavorite: Bool) {
@@ -249,7 +249,8 @@ extension RecipeDetailViewController: EditRecipeViewControllerDelegate {
         self.recipe = recipe
         setView(recipe: recipe)
         ingredientView.ingredientViewModel.ingredients = recipe.ingredients
+        ingredientView.reloadHeight()
         addCategoriesView(categories: recipe.categories)
-        delegate?.updateRecipe(recipe: recipe, tag: recipe.tag)
+        delegate?.saveRecipe(recipe: recipe, tag: recipe.tag)
     }
 }

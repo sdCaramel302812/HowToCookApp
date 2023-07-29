@@ -108,6 +108,20 @@ class TagView: UIView {
         }
     }
     
+    func setSelected(_ selected: Bool) {
+        guard isSelectable else {
+            return
+        }
+        isSelected = selected
+        if isSelected {
+            button.backgroundColor = UIColor(red: 10 / 255, green: 95 / 255, blue: 255 / 255, alpha: 0.7)
+            button.setTitleColor(.white, for: .normal)
+        } else {
+            button.backgroundColor = .clear
+            button.setTitleColor(.darkGray, for: .normal)
+        }
+    }
+    
     func addTarget(action: @escaping (_ tagView: TagView) -> (), for event: UIControl.Event) {
         // propagate touch event to tagview
         buttonPressHandler = action

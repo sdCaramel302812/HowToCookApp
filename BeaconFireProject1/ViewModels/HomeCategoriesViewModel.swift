@@ -66,7 +66,7 @@ class HomeCategoriesViewModel: NSObject {
             coreData?.initCoreData()
             return
         }
-        self.categories = categoriesToString(categories: category)
+        self.categories = categoriesToString(categories: category).sorted()
     }
     
     private func categoriesToString(categories: [Categories]) -> [String] {

@@ -171,6 +171,11 @@ extension HomeViewController: HomeRecipeViewModelDelegate {
 }
 
 extension HomeViewController: RecipeDetailViewControllerDelegate {
+    func leaveDetailPage() {
+        categoriesViewModel.loadCoreData()
+        categoriesCollectionView.reloadData()
+    }
+    
     func saveRecipe(recipe: RecipeModel, tag:  Int) {
         let coreStack = AppDelegate.sharedCoreData
         recipe.updateRef(coreData: coreStack)

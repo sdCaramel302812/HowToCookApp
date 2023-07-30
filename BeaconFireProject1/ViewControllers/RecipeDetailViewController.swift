@@ -9,6 +9,7 @@ import UIKit
 
 protocol RecipeDetailViewControllerDelegate: AnyObject {
     func saveRecipe(recipe: RecipeModel, tag: Int)
+    func leaveDetailPage()
 }
 
 class RecipeDetailViewController: UIViewController {
@@ -208,6 +209,10 @@ class RecipeDetailViewController: UIViewController {
         
         //instructionTextView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         //ingredientsLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        delegate?.leaveDetailPage()
     }
     
     @objc func editButtonPressed(_ sender: UIButton) {

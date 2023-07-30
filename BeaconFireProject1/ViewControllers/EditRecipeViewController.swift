@@ -265,6 +265,7 @@ class EditRecipeViewController: UIViewController {
     @objc private func addCategoryButtonPressed(_ sender: UIButton) {
         let coreData = AppDelegate.sharedCoreData
         let vc = AddCategoryViewController(coreData: coreData)
+        vc.delegate = self
         present(vc, animated: true)
     }
 }
@@ -272,6 +273,13 @@ class EditRecipeViewController: UIViewController {
 extension EditRecipeViewController: HomeCategoriesViewModelDelegate {
     func categorySelected(selected: [String]) {
         
+    }
+}
+
+extension EditRecipeViewController: AddCategoryViewControllerDelegate {
+    func saveCategory() {
+        categoriesViewModel.loadCoreData()
+        categoriesCollectionView.reloadData()
     }
 }
 

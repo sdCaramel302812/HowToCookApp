@@ -13,6 +13,7 @@ protocol AddCategoryViewControllerDelegate: AnyObject {
 
 class AddCategoryViewController: UIViewController {
     let coreData: CoreDataStack
+    weak var delegate: AddCategoryViewControllerDelegate?
     
     private let categoryInput = InputFieldView(labelText: "Category", portion: 0.4)
     
@@ -68,6 +69,7 @@ class AddCategoryViewController: UIViewController {
     
     @objc func addButtonPressed(_ sender: UIButton) {
         saveNewCategory()
+        delegate?.saveCategory()
         dismiss(animated: true)
     }
     

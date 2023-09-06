@@ -38,7 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B3F0D5D2A71844200A4C843 /* BeaconFireProject1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconFireProject1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B3F0D5D2A71844200A4C843 /* HowToCook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HowToCook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B3F0D602A71844200A4C843 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0B3F0D622A71844200A4C843 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0B3F0D642A71844200A4C843 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		0B3F0D542A71844200A4C843 = {
 			isa = PBXGroup;
 			children = (
-				0B3F0D5F2A71844200A4C843 /* BeaconFireProject1 */,
+				0B3F0D5F2A71844200A4C843 /* HowToCook */,
 				0B3F0D5E2A71844200A4C843 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,12 +92,12 @@
 		0B3F0D5E2A71844200A4C843 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0B3F0D5D2A71844200A4C843 /* BeaconFireProject1.app */,
+				0B3F0D5D2A71844200A4C843 /* HowToCook.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0B3F0D5F2A71844200A4C843 /* BeaconFireProject1 */ = {
+		0B3F0D5F2A71844200A4C843 /* HowToCook */ = {
 			isa = PBXGroup;
 			children = (
 				0B3F0D7A2A718A5700A4C843 /* ViewModels */,
@@ -112,7 +112,7 @@
 				0B3F0D692A71844200A4C843 /* BeaconFireProject1-1.xcdatamodeld */,
 				0B3F0D9A2A72B48300A4C843 /* Utils.swift */,
 			);
-			path = BeaconFireProject1;
+			path = HowToCook;
 			sourceTree = "<group>";
 		};
 		0B3F0D772A718A2E00A4C843 /* ViewControllers */ = {
@@ -168,9 +168,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0B3F0D5C2A71844200A4C843 /* BeaconFireProject1 */ = {
+		0B3F0D5C2A71844200A4C843 /* HowToCook */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0B3F0D742A71844300A4C843 /* Build configuration list for PBXNativeTarget "BeaconFireProject1" */;
+			buildConfigurationList = 0B3F0D742A71844300A4C843 /* Build configuration list for PBXNativeTarget "HowToCook" */;
 			buildPhases = (
 				0B3F0D592A71844200A4C843 /* Sources */,
 				0B3F0D5A2A71844200A4C843 /* Frameworks */,
@@ -180,9 +180,9 @@
 			);
 			dependencies = (
 			);
-			name = BeaconFireProject1;
+			name = HowToCook;
 			productName = BeaconFireProject1;
-			productReference = 0B3F0D5D2A71844200A4C843 /* BeaconFireProject1.app */;
+			productReference = 0B3F0D5D2A71844200A4C843 /* HowToCook.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -200,7 +200,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0B3F0D582A71844200A4C843 /* Build configuration list for PBXProject "BeaconFireProject1" */;
+			buildConfigurationList = 0B3F0D582A71844200A4C843 /* Build configuration list for PBXProject "HowToCook" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -213,7 +213,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0B3F0D5C2A71844200A4C843 /* BeaconFireProject1 */,
+				0B3F0D5C2A71844200A4C843 /* HowToCook */,
 			);
 		};
 /* End PBXProject section */
@@ -401,7 +401,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3359WQ8RR8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BeaconFireProject1/Info.plist;
+				INFOPLIST_FILE = HowToCook/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -428,7 +428,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3359WQ8RR8;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BeaconFireProject1/Info.plist;
+				INFOPLIST_FILE = HowToCook/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -449,7 +449,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0B3F0D582A71844200A4C843 /* Build configuration list for PBXProject "BeaconFireProject1" */ = {
+		0B3F0D582A71844200A4C843 /* Build configuration list for PBXProject "HowToCook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0B3F0D722A71844300A4C843 /* Debug */,
@@ -458,7 +458,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0B3F0D742A71844300A4C843 /* Build configuration list for PBXNativeTarget "BeaconFireProject1" */ = {
+		0B3F0D742A71844300A4C843 /* Build configuration list for PBXNativeTarget "HowToCook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0B3F0D752A71844300A4C843 /* Debug */,
